@@ -27,7 +27,7 @@ export function Services() {
 
         {/* Services Grid */}
         <ScrollStagger staggerDelay={0.15} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--grid-gap)] max-w-7xl mx-auto">
-          {SERVICES.map((service, index) => (
+          {SERVICES.map((service) => (
             <div
               key={service.id}
               className="card-feature group"
