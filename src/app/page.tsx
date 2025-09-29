@@ -4,6 +4,7 @@ import { Hero } from '@/components/sections/Hero';
 import { Services } from '@/components/sections/Services';
 import { Features } from '@/components/sections/Features';
 import { Pricing } from '@/components/sections/Pricing';
+import { Addons } from '@/components/sections/Addons';
 import { Process } from '@/components/sections/Process';
 import { Contact } from '@/components/sections/Contact';
 import { OnboardingModal } from '@/components/onboarding/OnboardingModal';
@@ -17,6 +18,7 @@ export default function Home() {
         <Services />
         <Features />
         <Pricing />
+        <Addons />
         <Process />
         <Contact />
       </main>

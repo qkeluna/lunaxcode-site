@@ -1,6 +1,7 @@
 // components/sections/Services.tsx
 'use client';
 
+import { Clock } from 'lucide-react';
 import { SERVICES } from '@/data/services';
 import { useOnboardingStore } from '@/store/onboarding-store';
 
@@ -8,48 +9,73 @@ export function Services() {
   const openModal = useOnboardingStore(state => state.openModal);
 
   return (
-    <section id="services" className="py-20 bg-white">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-slate-900 mb-4">
+    <section id="services" className="py-[var(--section-padding-lg)] bg-[var(--bg-secondary)]">
+      <div className="container mx-auto px-[var(--container-padding)]">
+        {/* Section Header */}
+        <div className="text-center mb-16 max-w-3xl mx-auto">
+          <h2 className="text-h2 text-primary mb-6">
             Our Services
           </h2>
-          <p className="text-xl text-slate-600 max-w-2xl mx-auto">
+          <p className="text-body-lg text-secondary">
             Professional digital solutions delivered fast and affordably for Filipino SMEs.
+            Choose the perfect package for your business needs.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {SERVICES.map((service) => (
+        {/* Services Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--grid-gap)] max-w-7xl mx-auto">
+          {SERVICES.map((service, index) => (
             <div
               key={service.id}
-              className="bg-slate-50 p-8 rounded-xl hover:shadow-lg transition-all duration-300 border border-slate-200 hover:border-slate-300"
+              className="card-feature group"
+              style={{ animationDelay: `${index * 0.1}s` }}
             >
+              {/* Icon */}
+              <div className="text-6xl mb-6 text-center group-hover:scale-110 transition-transform duration-300">
+                {service.icon}
+              </div>
+
+              {/* Service Header */}
               <div className="text-center mb-6">
-                <div className="text-5xl mb-4">{service.icon}</div>
-                <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                <h3 className="text-h4 text-primary mb-3 group-hover:text-[var(--accent-primary)] transition-colors">
                   {service.name}
                 </h3>
-                <p className="text-slate-600 mb-4">
+                <p className="text-body text-secondary mb-4 leading-relaxed">
                   {service.description}
                 </p>
-                <div className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-semibold">
-                  {service.timeline}
+
+                {/* Timeline Badge */}
+                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-subtle)]">
+                  <Clock className="w-3 h-3 text-[var(--accent-primary)]" />
+                  <span className="text-caption text-secondary font-medium">
+                    {service.timeline}
+                  </span>
                 </div>
               </div>
 
-              <p className="text-slate-700 text-center leading-relaxed mb-6">
+              {/* Service Details */}
+              <p className="text-body-sm text-tertiary text-center leading-relaxed mb-8">
                 {service.details}
               </p>
 
-              <button
-                onClick={() => openModal(service.id)}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
-              >
-                Get Started
-              </button>
+
+              {/* Hover Effect Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-primary)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[var(--radius-xl)] pointer-events-none"></div>
             </div>
           ))}
+        </div>
+
+        {/* Bottom CTA */}
+        <div className="text-center mt-16">
+          <p className="text-body text-secondary mb-6">
+            Not sure which service fits your needs?
+          </p>
+          <button
+            onClick={() => openModal('consultation')}
+            className="btn-secondary"
+          >
+            Schedule a Free Consultation
+          </button>
         </div>
       </div>
     </section>
