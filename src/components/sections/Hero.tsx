@@ -1,6 +1,6 @@
 // components/sections/Hero.tsx
 import Link from 'next/link';
-import { ArrowDown, Sparkles } from 'lucide-react';
+import { ArrowDown, Sparkles, ArrowRight } from 'lucide-react';
 import { COMPANY_INFO } from '@/data/company';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
@@ -53,17 +53,18 @@ export function Hero() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Link
                 href="#pricing"
-                className="btn-gradient text-lg px-8 py-4 group relative overflow-hidden"
+                className="py-3 px-8 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 text-white shadow-lg"
               >
-                <span className="relative z-10">Get Your Quote Today</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                <span>Get Your Quote Today</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
 
               <Link
                 href="#services"
-                className="btn-secondary text-lg px-8 py-4"
+                className="py-3 px-8 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--text-primary)] hover:bg-[var(--text-primary)]/90 text-[var(--bg-primary)]"
               >
-                View Our Services
+                <span>View Our Services</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Link>
             </div>
           </ScrollReveal>

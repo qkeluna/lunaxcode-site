@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { FEATURES } from '@/data/features';
 import { ScrollReveal, ScrollStagger } from '@/components/ui/ScrollReveal';
 
@@ -104,11 +105,13 @@ export function Features() {
                 Join hundreds of satisfied SMEs who have accelerated their growth with our digital solutions.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#pricing" className="btn-gradient">
-                  View Our Packages
+                <a href="#pricing" className="py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 text-white shadow-lg">
+                  <span>View Our Packages</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
-                <a href="#contact" className="btn-secondary">
-                  Talk to an Expert
+                <a href="#contact" className="py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--text-primary)] hover:bg-[var(--text-primary)]/90 text-[var(--bg-primary)]">
+                  <span>Talk to an Expert</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
             </div>

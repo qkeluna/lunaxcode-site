@@ -1,7 +1,7 @@
 // components/sections/Addons.tsx
 'use client';
 
-import { Plus, Zap, Shield, Wrench } from 'lucide-react';
+import { Plus, Zap, Shield, Wrench, ArrowRight } from 'lucide-react';
 import { ADDONS } from '@/data/addons';
 
 export function Addons() {
@@ -112,11 +112,13 @@ export function Addons() {
               Pricing may vary based on complexity and requirements.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="#contact" className="btn-primary">
-                Discuss Add-ons
+              <a href="#contact" className="py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 text-white shadow-lg">
+                <span>Discuss Add-ons</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
-              <a href="#pricing" className="btn-secondary">
-                View Main Packages
+              <a href="#pricing" className="py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--text-primary)] hover:bg-[var(--text-primary)]/90 text-[var(--bg-primary)]">
+                <span>View Main Packages</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
           </div>

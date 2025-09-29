@@ -3,10 +3,10 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, Sparkles } from 'lucide-react';
+import { Menu, X, Sparkles, ArrowRight } from 'lucide-react';
 import { useUIStore } from '@/store/ui-store';
 import { COMPANY_INFO } from '@/data/company';
-import { ThemeToggle } from '@/components/ui/ThemeToggle';
+import { AnimatedThemeToggler } from '@/components/magicui/animated-theme-toggler';
 
 export function Header() {
   const { isMobileMenuOpen, toggleMobileMenu, closeMobileMenu } = useUIStore();
@@ -73,13 +73,13 @@ export function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
-            <ThemeToggle />
+            <AnimatedThemeToggler />
             <Link
               href="#pricing"
-              className="btn-primary group relative overflow-hidden"
+              className="py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 text-white shadow-lg"
             >
-              <span className="relative z-10">Get Started</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+              <span>Get Started</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>
 
@@ -122,16 +122,17 @@ export function Header() {
               {/* Mobile CTA and Theme Toggle */}
               <div className="px-4 pt-4 border-t border-[var(--border-subtle)] space-y-4">
                 <div className="flex items-center justify-center gap-4">
-                  <ThemeToggle />
+                  <AnimatedThemeToggler />
                   <span className="text-body-sm text-secondary">Theme</span>
                 </div>
                 <Link
                   href="#pricing"
-                  className="btn-gradient w-full text-center block animate-fade-in-up"
+                  className="w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 text-white shadow-lg animate-fade-in-up"
                   style={{ animationDelay: '0.4s' }}
                   onClick={closeMobileMenu}
                 >
-                  Get Started
+                  <span>Get Started</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>
 

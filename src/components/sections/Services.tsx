@@ -1,7 +1,7 @@
 // components/sections/Services.tsx
 'use client';
 
-import { Clock } from 'lucide-react';
+import { Clock, ArrowRight } from 'lucide-react';
 import { SERVICES } from '@/data/services';
 import { useOnboardingStore } from '@/store/onboarding-store';
 import { ScrollReveal, ScrollStagger } from '@/components/ui/ScrollReveal';
@@ -74,9 +74,10 @@ export function Services() {
           </p>
           <button
             onClick={() => openModal('consultation')}
-            className="btn-secondary"
+            className="py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--text-primary)] hover:bg-[var(--text-primary)]/90 text-[var(--bg-primary)]"
           >
-            Schedule a Free Consultation
+            <span>Schedule a Free Consultation</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
       </div>

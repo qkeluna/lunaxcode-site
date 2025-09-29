@@ -2,7 +2,7 @@
 'use client';
 
 import { useState } from 'react';
-import { CheckCircle, Clock, Rocket } from 'lucide-react';
+import { CheckCircle, Clock, Rocket, ArrowRight } from 'lucide-react';
 import { ScrollReveal, ScrollStagger } from '@/components/ui/ScrollReveal';
 
 export function Process() {
@@ -150,11 +150,13 @@ export function Process() {
                 Our proven process ensures your project is delivered on time, within budget, and exceeds expectations.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="#pricing" className="btn-gradient">
-                  View Packages
+                <a href="#pricing" className="py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 text-white shadow-lg">
+                  <span>View Packages</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
-                <a href="#contact" className="btn-secondary">
-                  Schedule Discovery Call
+                <a href="#contact" className="py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--text-primary)] hover:bg-[var(--text-primary)]/90 text-[var(--bg-primary)]">
+                  <span>Schedule Discovery Call</span>
+                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </a>
               </div>
             </div>

@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import { ArrowRight } from 'lucide-react';
 import { DataService } from '@/lib/data-service';
 import type { ContactData } from '@/types';
 
@@ -146,9 +147,10 @@ export function ContactForm() {
       <button
         type="submit"
         disabled={isSubmitting}
-        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white py-3 px-6 rounded-lg font-semibold transition-colors"
+        className="w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 disabled:bg-[var(--accent-primary)]/50 text-white shadow-lg"
       >
-        {isSubmitting ? 'Sending...' : 'Send Message'}
+        <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+        {!isSubmitting && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
       </button>
     </form>
   );
