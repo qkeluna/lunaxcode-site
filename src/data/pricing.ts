@@ -48,7 +48,7 @@ export const PRICING_PLANS = [
       'E-commerce Ready',
       '3 Rounds of Revisions'
     ],
-    popular: true
+    popular: false
   },
   {
     id: 'basic_mobile_app',

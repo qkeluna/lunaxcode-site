@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { CheckCircle, Clock, Rocket } from 'lucide-react';
+import { ScrollReveal, ScrollStagger } from '@/components/ui/ScrollReveal';
 
 export function Process() {
   const [activeStep, setActiveStep] = useState<number | null>(null);
@@ -44,18 +45,20 @@ export function Process() {
 
       <div className="container mx-auto px-[var(--container-padding)] relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-20 max-w-4xl mx-auto">
-          <h2 className="text-h2 text-primary mb-6">
-            Our Process
-          </h2>
-          <p className="text-body-lg text-secondary max-w-3xl mx-auto">
-            A streamlined approach to delivering exceptional results quickly and efficiently.
-            From concept to launch in just one week.
-          </p>
-        </div>
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="text-center mb-20 max-w-4xl mx-auto">
+            <h2 className="text-h2 text-primary mb-6">
+              Our Process
+            </h2>
+            <p className="text-body-lg text-secondary max-w-3xl mx-auto">
+              A streamlined approach to delivering exceptional results quickly and efficiently.
+              From concept to launch in just one week.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Process Steps */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+        <ScrollStagger staggerDelay={0.2} className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {steps.map((step, index) => {
             const IconComponent = step.icon;
             return (
@@ -78,7 +81,7 @@ export function Process() {
                 )}
 
                 {/* Step Card */}
-                <div className="card-feature text-center relative z-10 animate-fade-in-up" style={{ animationDelay: `${index * 0.2}s` }}>
+                <div className="card-feature text-center relative z-10">
                   {/* Step Number & Icon */}
                   <div className="relative mb-6">
                     <div className="text-h1 text-tertiary font-bold mb-4 opacity-20">
@@ -134,27 +137,29 @@ export function Process() {
               </div>
             );
           })}
-        </div>
+        </ScrollStagger>
 
         {/* Bottom CTA */}
-        <div className="text-center mt-20">
-          <div className="max-w-2xl mx-auto">
-            <h3 className="text-h3 text-primary mb-4">
-              Ready to Start Your Project?
-            </h3>
-            <p className="text-body text-secondary mb-8">
-              Our proven process ensures your project is delivered on time, within budget, and exceeds expectations.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="#pricing" className="btn-gradient">
-                View Packages
-              </a>
-              <a href="#contact" className="btn-secondary">
-                Schedule Discovery Call
-              </a>
+        <ScrollReveal direction="up" delay={0.3}>
+          <div className="text-center mt-20">
+            <div className="max-w-2xl mx-auto">
+              <h3 className="text-h3 text-primary mb-4">
+                Ready to Start Your Project?
+              </h3>
+              <p className="text-body text-secondary mb-8">
+                Our proven process ensures your project is delivered on time, within budget, and exceeds expectations.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#pricing" className="btn-gradient">
+                  View Packages
+                </a>
+                <a href="#contact" className="btn-secondary">
+                  Schedule Discovery Call
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

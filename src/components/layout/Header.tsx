@@ -11,10 +11,14 @@ import { ThemeToggle } from '@/components/ui/ThemeToggle';
 export function Header() {
   const { isMobileMenuOpen, toggleMobileMenu, closeMobileMenu } = useUIStore();
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollHeight > 0 ? Math.min(100, (window.scrollY / scrollHeight) * 100) : 0;
+      setScrollProgress(progress);
     };
 
     window.addEventListener('scroll', handleScroll);
@@ -153,9 +157,7 @@ export function Header() {
         <div
           className="h-full bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] transition-all duration-300"
           style={{
-            width: typeof window !== 'undefined'
-              ? `${Math.min(100, (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100)}%`
-              : '0%'
+            width: `${scrollProgress}%`
           }}
         ></div>
       </div>

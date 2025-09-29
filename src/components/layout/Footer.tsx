@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { Mail, Phone, MapPin, Sparkles } from 'lucide-react';
 import { COMPANY_INFO } from '@/data/company';
+import { ScrollReveal, ScrollStagger } from '@/components/ui/ScrollReveal';
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -18,7 +19,7 @@ export function Footer() {
   return (
     <footer className="bg-[var(--bg-secondary)] border-t border-[var(--border-subtle)] py-[var(--section-padding-md)]">
       <div className="container mx-auto px-[var(--container-padding)]">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+        <ScrollStagger staggerDelay={0.1} className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center gap-2 mb-6">
@@ -93,26 +94,28 @@ export function Footer() {
               </li>
             </ul>
           </div>
-        </div>
+        </ScrollStagger>
 
         {/* Bottom Section */}
-        <div className="border-t border-[var(--border-subtle)] pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-body-sm text-tertiary">
-              &copy; {currentYear} {COMPANY_INFO.name}. All rights reserved.
-            </p>
-
-            <div className="flex items-center gap-6">
-              <p className="text-caption text-tertiary">
-                Built with ❤️ in the Philippines
+        <ScrollReveal direction="up" delay={0.2}>
+          <div className="border-t border-[var(--border-subtle)] pt-8">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+              <p className="text-body-sm text-tertiary">
+                &copy; {currentYear} {COMPANY_INFO.name}. All rights reserved.
               </p>
-              <div className="flex items-center gap-2">
-                <div className="w-2 h-2 bg-[var(--accent-success)] rounded-full animate-pulse"></div>
-                <span className="text-caption text-secondary">Ready to serve</span>
+
+              <div className="flex items-center gap-6">
+                <p className="text-caption text-tertiary">
+                  Built with ❤️ in the Philippines
+                </p>
+                <div className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-[var(--accent-success)] rounded-full animate-pulse"></div>
+                  <span className="text-caption text-secondary">Ready to serve</span>
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </footer>
   );

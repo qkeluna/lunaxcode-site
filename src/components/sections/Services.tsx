@@ -4,6 +4,7 @@
 import { Clock } from 'lucide-react';
 import { SERVICES } from '@/data/services';
 import { useOnboardingStore } from '@/store/onboarding-store';
+import { ScrollReveal, ScrollStagger } from '@/components/ui/ScrollReveal';
 
 export function Services() {
   const openModal = useOnboardingStore(state => state.openModal);
@@ -12,23 +13,24 @@ export function Services() {
     <section id="services" className="py-[var(--section-padding-lg)] bg-[var(--bg-secondary)]">
       <div className="container mx-auto px-[var(--container-padding)]">
         {/* Section Header */}
-        <div className="text-center mb-16 max-w-3xl mx-auto">
-          <h2 className="text-h2 text-primary mb-6">
-            Our Services
-          </h2>
-          <p className="text-body-lg text-secondary">
-            Professional digital solutions delivered fast and affordably for Filipino SMEs.
-            Choose the perfect package for your business needs.
-          </p>
-        </div>
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="text-center mb-16 max-w-3xl mx-auto">
+            <h2 className="text-h2 text-primary mb-6">
+              Our Services
+            </h2>
+            <p className="text-body-lg text-secondary">
+              Professional digital solutions delivered fast and affordably for Filipino SMEs.
+              Choose the perfect package for your business needs.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Services Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--grid-gap)] max-w-7xl mx-auto">
+        <ScrollStagger staggerDelay={0.15} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--grid-gap)] max-w-7xl mx-auto">
           {SERVICES.map((service, index) => (
             <div
               key={service.id}
               className="card-feature group"
-              style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Icon */}
               <div className="text-6xl mb-6 text-center group-hover:scale-110 transition-transform duration-300">
@@ -63,7 +65,7 @@ export function Services() {
               <div className="absolute inset-0 bg-gradient-to-br from-[var(--accent-primary)]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity rounded-[var(--radius-xl)] pointer-events-none"></div>
             </div>
           ))}
-        </div>
+        </ScrollStagger>
 
         {/* Bottom CTA */}
         <div className="text-center mt-16">

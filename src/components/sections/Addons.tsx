@@ -93,14 +93,6 @@ export function Addons() {
                     )}
                   </div>
 
-                  {/* Popular Badge for middle item */}
-                  {index === 1 && (
-                    <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                      <span className="bg-[var(--accent-primary)] text-white px-3 py-1 rounded-full text-caption font-semibold">
-                        Popular
-                      </span>
-                    </div>
-                  )}
                 </div>
 
                 {/* Hover Indicator */}

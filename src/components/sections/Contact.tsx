@@ -2,6 +2,7 @@
 import { Mail, Phone, MapPin, Clock, CreditCard, MessageCircle } from 'lucide-react';
 import { COMPANY_INFO } from '@/data/company';
 import { ContactForm } from '../forms/ContactForm';
+import { ScrollReveal, ScrollStagger } from '@/components/ui/ScrollReveal';
 
 export function Contact() {
   const contactMethods = [
@@ -39,24 +40,27 @@ export function Contact() {
       <div className="container mx-auto px-[var(--container-padding)] relative z-10">
         <div className="max-w-7xl mx-auto">
           {/* Section Header */}
-          <div className="text-center mb-20 max-w-4xl mx-auto">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-subtle)] mb-6">
-              <MessageCircle className="w-4 h-4 text-[var(--accent-primary)]" />
-              <span className="text-caption text-secondary">Let&apos;s Connect</span>
-            </div>
+          <ScrollReveal direction="up" delay={0.1}>
+            <div className="text-center mb-20 max-w-4xl mx-auto">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-subtle)] mb-6">
+                <MessageCircle className="w-4 h-4 text-[var(--accent-primary)]" />
+                <span className="text-caption text-secondary">Let&apos;s Connect</span>
+              </div>
 
-            <h2 className="text-h2 text-primary mb-6">
-              Get In Touch
-            </h2>
-            <p className="text-body-lg text-secondary max-w-3xl mx-auto">
-              Ready to start your digital transformation? Let&apos;s discuss your project and
-              create something amazing together.
-            </p>
-          </div>
+              <h2 className="text-h2 text-primary mb-6">
+                Get In Touch
+              </h2>
+              <p className="text-body-lg text-secondary max-w-3xl mx-auto">
+                Ready to start your digital transformation? Let&apos;s discuss your project and
+                create something amazing together.
+              </p>
+            </div>
+          </ScrollReveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Contact Information */}
-            <div className="space-y-8">
+            <ScrollReveal direction="left" delay={0.2}>
+              <div className="space-y-8">
               <div>
                 <h3 className="text-h3 text-primary mb-8">
                   Contact Information
@@ -137,9 +141,11 @@ export function Contact() {
                 </div>
               </div>
             </div>
+            </ScrollReveal>
 
             {/* Contact Form */}
-            <div className="card-feature p-8">
+            <ScrollReveal direction="right" delay={0.2}>
+              <div className="card-feature p-8">
               <div className="mb-8">
                 <h3 className="text-h3 text-primary mb-3">
                   Send us a Message
@@ -150,25 +156,28 @@ export function Contact() {
               </div>
               <ContactForm />
             </div>
+            </ScrollReveal>
           </div>
 
           {/* Trust Indicators */}
-          <div className="text-center mt-20">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-              <div className="text-center">
-                <div className="text-h3 text-[var(--accent-primary)] font-bold mb-2">100+</div>
-                <p className="text-body-sm text-secondary">Happy Clients</p>
-              </div>
-              <div className="text-center">
-                <div className="text-h3 text-[var(--accent-primary)] font-bold mb-2">48h</div>
-                <p className="text-body-sm text-secondary">Average Delivery</p>
-              </div>
-              <div className="text-center">
-                <div className="text-h3 text-[var(--accent-primary)] font-bold mb-2">99%</div>
-                <p className="text-body-sm text-secondary">Client Satisfaction</p>
-              </div>
+          <ScrollReveal direction="up" delay={0.3}>
+            <div className="text-center mt-20">
+              <ScrollStagger staggerDelay={0.1} className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                <div className="text-center">
+                  <div className="text-h3 text-[var(--accent-primary)] font-bold mb-2">100+</div>
+                  <p className="text-body-sm text-secondary">Happy Clients</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-h3 text-[var(--accent-primary)] font-bold mb-2">48h</div>
+                  <p className="text-body-sm text-secondary">Average Delivery</p>
+                </div>
+                <div className="text-center">
+                  <div className="text-h3 text-[var(--accent-primary)] font-bold mb-2">99%</div>
+                  <p className="text-body-sm text-secondary">Client Satisfaction</p>
+                </div>
+              </ScrollStagger>
             </div>
-          </div>
+          </ScrollReveal>
         </div>
       </div>
     </section>

@@ -4,6 +4,7 @@
 import { PRICING_PLANS } from '@/data/pricing';
 import { useOnboardingStore } from '@/store/onboarding-store';
 import { Check, Star, ArrowRight, Zap } from 'lucide-react';
+import { ScrollReveal, ScrollStagger } from '@/components/ui/ScrollReveal';
 
 export function Pricing() {
   const openModal = useOnboardingStore(state => state.openModal);
@@ -17,37 +18,38 @@ export function Pricing() {
 
       <div className="container mx-auto px-[var(--container-padding)] relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-20 max-w-4xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-subtle)] mb-6">
-            <Zap className="w-4 h-4 text-[var(--accent-primary)]" />
-            <span className="text-caption text-secondary">Fast & Affordable</span>
-          </div>
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="text-center mb-20 max-w-4xl mx-auto">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-subtle)] mb-6">
+              <Zap className="w-4 h-4 text-[var(--accent-primary)]" />
+              <span className="text-caption text-secondary">Fast & Affordable</span>
+            </div>
 
-          <h2 className="text-h2 text-primary mb-6">
-            Choose Your Package
-          </h2>
-          <p className="text-body-lg text-secondary max-w-3xl mx-auto">
-            Transparent pricing with no hidden fees. Get professional digital solutions
-            that scale with your business growth.
-          </p>
-        </div>
+            <h2 className="text-h2 text-primary mb-6">
+              Choose Your Package
+            </h2>
+            <p className="text-body-lg text-secondary max-w-3xl mx-auto">
+              Transparent pricing with no hidden fees. Get professional digital solutions
+              that scale with your business growth.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Pricing Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+        <ScrollStagger staggerDelay={0.2} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
           {PRICING_PLANS.map((plan, index) => (
             <div
               key={plan.id}
-              className={`card-pricing group relative overflow-hidden animate-fade-in-up ${
+              className={`card-pricing group relative overflow-hidden flex flex-col h-full ${
                 plan.popular ? 'recommended scale-105 lg:scale-110' : ''
               }`}
-              style={{ animationDelay: `${index * 0.1}s` }}
             >
               {/* Popular Badge */}
               {plan.popular && (
                 <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
                   <div className="flex items-center gap-1 bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] text-white px-4 py-1 rounded-full text-caption font-semibold shadow-lg">
                     <Star className="w-3 h-3" />
-                    Most Popular
+                    Popular
                   </div>
                 </div>
               )}
@@ -84,7 +86,7 @@ export function Pricing() {
               </div>
 
               {/* Features List */}
-              <div className="space-y-4 mb-8 relative z-10">
+              <div className="space-y-4 mb-8 relative z-10 flex-grow">
                 {plan.features.map((feature, featureIndex) => (
                   <div
                     key={featureIndex}
@@ -122,42 +124,44 @@ export function Pricing() {
               </div>
             </div>
           ))}
-        </div>
+        </ScrollStagger>
 
         {/* Bottom Section */}
-        <div className="text-center mt-20">
-          <div className="max-w-3xl mx-auto">
-            <h3 className="text-h3 text-primary mb-4">
-              Need a Custom Solution?
-            </h3>
-            <p className="text-body text-secondary mb-8">
-              Every business is unique. If our standard packages don&apos;t fit your needs perfectly,
-              let&apos;s create a custom solution that&apos;s tailored specifically for your requirements.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button
-                onClick={() => openModal('custom')}
-                className="btn-secondary"
-              >
-                Request Custom Quote
-              </button>
-              <a href="#contact" className="btn-primary">
-                Schedule Consultation
-              </a>
+        <ScrollReveal direction="up" delay={0.3}>
+          <div className="text-center mt-20">
+            <div className="max-w-3xl mx-auto">
+              <h3 className="text-h3 text-primary mb-4">
+                Need a Custom Solution?
+              </h3>
+              <p className="text-body text-secondary mb-8">
+                Every business is unique. If our standard packages don&apos;t fit your needs perfectly,
+                let&apos;s create a custom solution that&apos;s tailored specifically for your requirements.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  onClick={() => openModal('custom')}
+                  className="btn-secondary"
+                >
+                  Request Custom Quote
+                </button>
+                <a href="#contact" className="btn-primary">
+                  Schedule Consultation
+                </a>
+              </div>
             </div>
-          </div>
 
-          {/* Money Back Guarantee */}
-          <div className="mt-12 p-6 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] rounded-lg max-w-md mx-auto">
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Check className="w-5 h-5 text-[var(--accent-success)]" />
-              <span className="text-h5 text-primary">30-Day Money Back Guarantee</span>
+            {/* Money Back Guarantee */}
+            <div className="mt-12 p-6 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] rounded-lg max-w-md mx-auto">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Check className="w-5 h-5 text-[var(--accent-success)]" />
+                <span className="text-h5 text-primary">30-Day Money Back Guarantee</span>
+              </div>
+              <p className="text-body-sm text-secondary">
+                Not satisfied? Get a full refund within 30 days, no questions asked.
+              </p>
             </div>
-            <p className="text-body-sm text-secondary">
-              Not satisfied? Get a full refund within 30 days, no questions asked.
-            </p>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );

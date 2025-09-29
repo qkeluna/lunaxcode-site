@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { ArrowDown, Sparkles } from 'lucide-react';
 import { COMPANY_INFO } from '@/data/company';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 export function Hero() {
   return (
@@ -19,52 +20,64 @@ export function Hero() {
       <div className="container mx-auto px-[var(--container-padding)] relative z-10">
         <div className="max-w-5xl mx-auto text-center">
           {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-subtle)] mb-8 animate-fade-in-up">
-            <Sparkles className="w-4 h-4 text-[var(--accent-primary)]" />
-            <span className="text-caption text-secondary">Code at the Speed of Light</span>
-          </div>
+          <ScrollReveal direction="up" delay={0}>
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-subtle)] mb-8">
+              <Sparkles className="w-4 h-4 text-[var(--accent-primary)]" />
+              <span className="text-caption text-secondary">Code at the Speed of Light</span>
+            </div>
+          </ScrollReveal>
 
           {/* Main Headline */}
-          <h1 className="text-display text-primary mb-6 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-            {COMPANY_INFO.tagline}
-          </h1>
+          <ScrollReveal direction="up" delay={0.1}>
+            <h1 className="text-display text-primary mb-6">
+              {COMPANY_INFO.tagline}
+            </h1>
+          </ScrollReveal>
 
           {/* Subtitle */}
-          <p className="text-body-lg text-secondary max-w-3xl mx-auto mb-8 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
-            {COMPANY_INFO.description}
-          </p>
+          <ScrollReveal direction="up" delay={0.2}>
+            <p className="text-body-lg text-secondary max-w-3xl mx-auto mb-8">
+              {COMPANY_INFO.description}
+            </p>
+          </ScrollReveal>
 
           {/* Description */}
-          <p className="text-body text-tertiary max-w-2xl mx-auto mb-12 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-            From 48-hour landing pages to full mobile applications - we help Filipino SMEs establish and grow their digital presence.
-          </p>
+          <ScrollReveal direction="up" delay={0.3}>
+            <p className="text-body text-tertiary max-w-2xl mx-auto mb-12">
+              From 48-hour landing pages to full mobile applications - we help Filipino SMEs establish and grow their digital presence.
+            </p>
+          </ScrollReveal>
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-            <Link
-              href="#pricing"
-              className="btn-gradient text-lg px-8 py-4 group relative overflow-hidden"
-            >
-              <span className="relative z-10">Get Your Quote Today</span>
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
-            </Link>
+          <ScrollReveal direction="up" delay={0.4}>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Link
+                href="#pricing"
+                className="btn-gradient text-lg px-8 py-4 group relative overflow-hidden"
+              >
+                <span className="relative z-10">Get Your Quote Today</span>
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+              </Link>
 
-            <Link
-              href="#services"
-              className="btn-secondary text-lg px-8 py-4"
-            >
-              View Our Services
-            </Link>
-          </div>
+              <Link
+                href="#services"
+                className="btn-secondary text-lg px-8 py-4"
+              >
+                View Our Services
+              </Link>
+            </div>
+          </ScrollReveal>
 
           {/* Trust Indicators */}
-          <div className="flex flex-wrap justify-center items-center gap-8 mt-16 opacity-60 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
-            <div className="text-caption text-tertiary">Trusted by 100+ SMEs</div>
-            <div className="w-1 h-1 bg-[var(--text-tertiary)] rounded-full"></div>
-            <div className="text-caption text-tertiary">48h Delivery Guarantee</div>
-            <div className="w-1 h-1 bg-[var(--text-tertiary)] rounded-full"></div>
-            <div className="text-caption text-tertiary">Based in the Philippines</div>
-          </div>
+          <ScrollReveal direction="up" delay={0.5}>
+            <div className="flex flex-wrap justify-center items-center gap-8 mt-16 opacity-60">
+              <div className="text-caption text-tertiary">Trusted by 100+ SMEs</div>
+              <div className="w-1 h-1 bg-[var(--text-tertiary)] rounded-full"></div>
+              <div className="text-caption text-tertiary">48h Delivery Guarantee</div>
+              <div className="w-1 h-1 bg-[var(--text-tertiary)] rounded-full"></div>
+              <div className="text-caption text-tertiary">Based in the Philippines</div>
+            </div>
+          </ScrollReveal>
         </div>
       </div>
 

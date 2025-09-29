@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { FEATURES } from '@/data/features';
+import { ScrollReveal, ScrollStagger } from '@/components/ui/ScrollReveal';
 
 export function Features() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -17,23 +18,24 @@ export function Features() {
 
       <div className="container mx-auto px-[var(--container-padding)] relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-20 max-w-4xl mx-auto">
-          <h2 className="text-h2 text-primary mb-6">
-            Why Choose Lunaxcode?
-          </h2>
-          <p className="text-body-lg text-secondary max-w-3xl mx-auto">
-            We combine speed, quality, and innovation to deliver exceptional digital solutions
-            that help Filipino SMEs compete in the digital marketplace.
-          </p>
-        </div>
+        <ScrollReveal direction="up" delay={0.1}>
+          <div className="text-center mb-20 max-w-4xl mx-auto">
+            <h2 className="text-h2 text-primary mb-6">
+              Why Choose Lunaxcode?
+            </h2>
+            <p className="text-body-lg text-secondary max-w-3xl mx-auto">
+              We combine speed, quality, and innovation to deliver exceptional digital solutions
+              that help Filipino SMEs compete in the digital marketplace.
+            </p>
+          </div>
+        </ScrollReveal>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--grid-gap)] max-w-7xl mx-auto">
+        <ScrollStagger staggerDelay={0.15} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--grid-gap)] max-w-7xl mx-auto">
           {FEATURES.map((feature, index) => (
             <div
               key={index}
-              className="card-feature group relative overflow-hidden animate-fade-in-up"
-              style={{ animationDelay: `${index * 0.15}s` }}
+              className="card-feature group relative overflow-hidden flex flex-col h-full"
               onMouseEnter={() => setHoveredIndex(index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
@@ -52,7 +54,7 @@ export function Features() {
               </div>
 
               {/* Content */}
-              <div className="relative z-10">
+              <div className="relative z-10 flex-grow">
                 <h3 className="text-h4 text-primary mb-4 group-hover:text-[var(--accent-primary)] transition-colors duration-300">
                   {feature.title}
                 </h3>
@@ -89,27 +91,29 @@ export function Features() {
               </div>
             </div>
           ))}
-        </div>
+        </ScrollStagger>
 
         {/* Bottom CTA Section */}
-        <div className="text-center mt-20">
-          <div className="max-w-2xl mx-auto">
-            <h3 className="text-h3 text-primary mb-4">
-              Ready to Transform Your Business?
-            </h3>
-            <p className="text-body text-secondary mb-8">
-              Join hundreds of satisfied SMEs who have accelerated their growth with our digital solutions.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <a href="#pricing" className="btn-gradient">
-                View Our Packages
-              </a>
-              <a href="#contact" className="btn-secondary">
-                Talk to an Expert
-              </a>
+        <ScrollReveal direction="up" delay={0.3}>
+          <div className="text-center mt-20">
+            <div className="max-w-2xl mx-auto">
+              <h3 className="text-h3 text-primary mb-4">
+                Ready to Transform Your Business?
+              </h3>
+              <p className="text-body text-secondary mb-8">
+                Join hundreds of satisfied SMEs who have accelerated their growth with our digital solutions.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#pricing" className="btn-gradient">
+                  View Our Packages
+                </a>
+                <a href="#contact" className="btn-secondary">
+                  Talk to an Expert
+                </a>
+              </div>
             </div>
           </div>
-        </div>
+        </ScrollReveal>
       </div>
     </section>
   );
