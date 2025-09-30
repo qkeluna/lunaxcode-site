@@ -3,18 +3,30 @@ import Link from 'next/link';
 import { ArrowDown, Sparkles, ArrowRight } from 'lucide-react';
 import { COMPANY_INFO } from '@/data/company';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { LightRays } from '@/components/magicui/light-rays';
 
 export function Hero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[var(--bg-primary)]">
       {/* Background Elements */}
       <div className="absolute inset-0">
+        {/* Light Rays Effect */}
+        <LightRays
+          count={10}
+          color="rgba(91, 110, 255, 0.25)"
+          blur={60}
+          opacity={0.7}
+          speed={14}
+          length="100vh"
+          className="dark:opacity-100 opacity-50"
+        />
+
         {/* Gradient Orbs */}
-        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-[var(--accent-primary)] rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse"></div>
-        <div className="absolute top-3/4 right-1/4 w-72 h-72 bg-[var(--accent-secondary)] rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/4 left-1/4 w-72 h-72 bg-[var(--accent-primary)] rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse"></div>
+        <div className="absolute top-3/4 right-1/4 w-72 h-72 bg-[var(--accent-secondary)] rounded-full mix-blend-multiply filter blur-xl opacity-10 animate-pulse" style={{ animationDelay: '2s' }}></div>
 
         {/* Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(var(--border-subtle)_1px,transparent_1px),linear-gradient(90deg,var(--border-subtle)_1px,transparent_1px)] bg-[size:50px_50px] opacity-30"></div>
+        <div className="absolute inset-0 bg-[linear-gradient(var(--border-subtle)_1px,transparent_1px),linear-gradient(90deg,var(--border-subtle)_1px,transparent_1px)] bg-[size:50px_50px] opacity-20"></div>
       </div>
 
       <div className="container mx-auto px-[var(--container-padding)] relative z-10">

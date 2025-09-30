@@ -11,8 +11,7 @@ export function Footer() {
     { href: '#services', label: 'Services' },
     { href: '#features', label: 'Features' },
     { href: '#pricing', label: 'Pricing' },
-    { href: '#addons', label: 'Add-ons' },
-    { href: '#process', label: 'Our Process' },
+{ href: '#process', label: 'Our Process' },
     { href: '#contact', label: 'Contact' },
   ];
 

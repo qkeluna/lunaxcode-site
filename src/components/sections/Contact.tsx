@@ -1,184 +1,96 @@
 // components/sections/Contact.tsx
-import { Mail, Phone, MapPin, Clock, CreditCard, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MapPin } from 'lucide-react';
 import { COMPANY_INFO } from '@/data/company';
 import { ContactForm } from '../forms/ContactForm';
-import { ScrollReveal, ScrollStagger } from '@/components/ui/ScrollReveal';
+import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 export function Contact() {
-  const contactMethods = [
-    {
-      icon: Mail,
-      title: 'Email',
-      value: COMPANY_INFO.contact.email,
-      description: 'Best for detailed inquiries',
-      action: `mailto:${COMPANY_INFO.contact.email}`
-    },
-    {
-      icon: Phone,
-      title: 'Phone',
-      value: COMPANY_INFO.contact.phone,
-      description: 'Mon-Fri 9AM-6PM PHT',
-      action: `tel:${COMPANY_INFO.contact.phone}`
-    },
-    {
-      icon: MapPin,
-      title: 'Location',
-      value: COMPANY_INFO.contact.location,
-      description: 'Serving all of Philippines',
-      action: null
-    }
-  ];
-
   return (
-    <section id="contact" className="py-[var(--section-padding-lg)] bg-[var(--bg-tertiary)] relative overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/3 w-96 h-96 bg-[var(--accent-primary)] rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
-        <div className="absolute bottom-0 right-1/3 w-96 h-96 bg-[var(--accent-secondary)] rounded-full mix-blend-multiply filter blur-3xl opacity-10"></div>
-      </div>
+    <section id="contact" className="py-16 lg:py-20 bg-[var(--bg-primary)] relative overflow-hidden">
+      {/* Subtle Background Grid */}
+      <div className="absolute inset-0 bg-[linear-gradient(var(--border-subtle)_1px,transparent_1px),linear-gradient(90deg,var(--border-subtle)_1px,transparent_1px)] bg-[size:50px_50px] opacity-20"></div>
 
       <div className="container mx-auto px-[var(--container-padding)] relative z-10">
-        <div className="max-w-7xl mx-auto">
-          {/* Section Header */}
-          <ScrollReveal direction="up" delay={0.1}>
-            <div className="text-center mb-20 max-w-4xl mx-auto">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[var(--surface-elevated)] border border-[var(--border-subtle)] mb-6">
-                <MessageCircle className="w-4 h-4 text-[var(--accent-primary)]" />
-                <span className="text-caption text-secondary">Let&apos;s Connect</span>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 max-w-[1400px] mx-auto items-center">
+          {/* Left Column - Hero Text & Contact Info */}
+          <ScrollReveal direction="left" delay={0.1}>
+            <div className="lg:pr-8 xl:pr-12">
+              {/* Hero Text */}
+              <div className="mb-10">
+                <h2 className="text-[48px] lg:text-[64px] leading-[1.1] font-bold text-primary mb-4">
+                  Want to build something great? Get in touch.
+                </h2>
+                <p className="text-body text-secondary max-w-lg">
+                  Whether you&apos;re looking for land or ready to build, we&apos;d love to help.
+                </p>
               </div>
 
-              <h2 className="text-h2 text-primary mb-6">
-                Get In Touch
-              </h2>
-              <p className="text-body-lg text-secondary max-w-3xl mx-auto">
-                Ready to start your digital transformation? Let&apos;s discuss your project and
-                create something amazing together.
-              </p>
+              {/* Contact Methods - Minimal List */}
+              <div className="space-y-4">
+                <a
+                  href={`mailto:${COMPANY_INFO.contact.email}`}
+                  className="flex items-center gap-4 text-body text-secondary hover:text-primary transition-colors group"
+                >
+                  <Mail className="w-5 h-5 text-[var(--text-tertiary)] group-hover:text-[var(--accent-primary)] transition-colors" />
+                  <span>{COMPANY_INFO.contact.email}</span>
+                </a>
+
+                <a
+                  href={`tel:${COMPANY_INFO.contact.phone}`}
+                  className="flex items-center gap-4 text-body text-secondary hover:text-primary transition-colors group"
+                >
+                  <Phone className="w-5 h-5 text-[var(--text-tertiary)] group-hover:text-[var(--accent-primary)] transition-colors" />
+                  <span>{COMPANY_INFO.contact.phone}</span>
+                </a>
+
+                <div className="flex items-center gap-4 text-body text-secondary">
+                  <MapPin className="w-5 h-5 text-[var(--text-tertiary)]" />
+                  <span>{COMPANY_INFO.contact.location}</span>
+                </div>
+              </div>
+
+              {/* Business Info */}
+              <div className="mt-8 pt-6 border-t border-[var(--border-subtle)] space-y-3">
+                <div>
+                  <p className="text-body-sm text-tertiary mb-1">Business Hours</p>
+                  <p className="text-body text-secondary">Mon - Fri: 9AM - 6PM PHT</p>
+                </div>
+
+                <div>
+                  <p className="text-body-sm text-tertiary mb-2">Payment Methods</p>
+                  <div className="flex flex-wrap gap-2">
+                    {COMPANY_INFO.paymentTerms.methods.map((method) => (
+                      <span
+                        key={method}
+                        className="px-3 py-1 bg-[var(--surface-elevated)] text-body-sm text-secondary rounded-lg border border-[var(--border-subtle)]"
+                      >
+                        {method}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
             </div>
           </ScrollReveal>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-            {/* Contact Information */}
-            <ScrollReveal direction="left" delay={0.2}>
-              <div className="space-y-8">
-              <div>
-                <h3 className="text-h3 text-primary mb-8">
-                  Contact Information
-                </h3>
-
-                <div className="space-y-6">
-                  {contactMethods.map((method, index) => {
-                    const IconComponent = method.icon;
-                    return (
-                      <div
-                        key={index}
-                        className="card-feature group hover:scale-105 transition-all duration-300"
-                      >
-                        <div className="flex items-start gap-4">
-                          <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-[var(--accent-primary)]/10 flex items-center justify-center group-hover:bg-[var(--accent-primary)] transition-all duration-300">
-                            <IconComponent className="w-5 h-5 text-[var(--accent-primary)] group-hover:text-white transition-colors" />
-                          </div>
-                          <div className="flex-1">
-                            <h4 className="text-h5 text-primary mb-1 group-hover:text-[var(--accent-primary)] transition-colors">
-                              {method.title}
-                            </h4>
-                            {method.action ? (
-                              <a
-                                href={method.action}
-                                className="text-body text-secondary hover:text-[var(--accent-primary)] transition-colors block mb-1"
-                              >
-                                {method.value}
-                              </a>
-                            ) : (
-                              <p className="text-body text-secondary mb-1">{method.value}</p>
-                            )}
-                            <p className="text-body-sm text-tertiary">{method.description}</p>
-                          </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Payment & Business Info */}
-              <div className="space-y-6">
-                <div className="card-feature">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-[var(--accent-success)]/10 flex items-center justify-center">
-                      <Clock className="w-5 h-5 text-[var(--accent-success)]" />
-                    </div>
-                    <div>
-                      <h4 className="text-h5 text-primary mb-2">Response Time</h4>
-                      <p className="text-body text-secondary mb-1">Within 2 hours during business hours</p>
-                      <p className="text-body-sm text-tertiary">We&apos;re committed to quick responses</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="card-feature">
-                  <div className="flex items-start gap-4">
-                    <div className="flex-shrink-0 w-12 h-12 rounded-lg bg-[var(--accent-warning)]/10 flex items-center justify-center">
-                      <CreditCard className="w-5 h-5 text-[var(--accent-warning)]" />
-                    </div>
-                    <div>
-                      <h4 className="text-h5 text-primary mb-2">Payment Terms</h4>
-                      <p className="text-body text-secondary mb-2">
-                        {COMPANY_INFO.paymentTerms.deposit} deposit, {COMPANY_INFO.paymentTerms.balance}
-                      </p>
-                      <div className="flex flex-wrap gap-2">
-                        {COMPANY_INFO.paymentTerms.methods.map((method) => (
-                          <span
-                            key={method}
-                            className="px-2 py-1 bg-[var(--surface-elevated)] text-caption text-secondary rounded border border-[var(--border-subtle)]"
-                          >
-                            {method}
-                          </span>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </ScrollReveal>
-
-            {/* Contact Form */}
-            <ScrollReveal direction="right" delay={0.2}>
-              <div className="card-feature p-8">
-              <div className="mb-8">
-                <h3 className="text-h3 text-primary mb-3">
-                  Send us a Message
-                </h3>
-                <p className="text-body text-secondary">
-                  Fill out the form below and we&apos;ll get back to you within 2 hours.
-                </p>
-              </div>
+          {/* Right Column - Contact Form */}
+          <ScrollReveal direction="right" delay={0.2}>
+            <div className="bg-[var(--bg-secondary)] rounded-3xl border border-[var(--border-subtle)] p-8 lg:p-10">
               <ContactForm />
-            </div>
-            </ScrollReveal>
-          </div>
-
-          {/* Trust Indicators */}
-          <ScrollReveal direction="up" delay={0.3}>
-            <div className="text-center mt-20">
-              <ScrollStagger staggerDelay={0.1} className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-                <div className="text-center">
-                  <div className="text-h3 text-[var(--accent-primary)] font-bold mb-2">100+</div>
-                  <p className="text-body-sm text-secondary">Happy Clients</p>
-                </div>
-                <div className="text-center">
-                  <div className="text-h3 text-[var(--accent-primary)] font-bold mb-2">48h</div>
-                  <p className="text-body-sm text-secondary">Average Delivery</p>
-                </div>
-                <div className="text-center">
-                  <div className="text-h3 text-[var(--accent-primary)] font-bold mb-2">99%</div>
-                  <p className="text-body-sm text-secondary">Client Satisfaction</p>
-                </div>
-              </ScrollStagger>
             </div>
           </ScrollReveal>
         </div>
+
+        {/* Trust Indicators - Bottom */}
+        <ScrollReveal direction="up" delay={0.3}>
+          <div className="flex flex-wrap justify-center items-center gap-8 mt-12 pt-12 border-t border-[var(--border-subtle)] opacity-60">
+            <div className="text-caption text-tertiary">Trusted by 100+ SMEs</div>
+            <div className="w-1 h-1 bg-[var(--text-tertiary)] rounded-full"></div>
+            <div className="text-caption text-tertiary">48h Delivery Guarantee</div>
+            <div className="w-1 h-1 bg-[var(--text-tertiary)] rounded-full"></div>
+            <div className="text-caption text-tertiary">99% Client Satisfaction</div>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );

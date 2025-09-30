@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState, useEffect } from "react";
 import { Moon, Sun } from "lucide-react";
 import { flushSync } from "react-dom";
 import { useThemeStore } from "@/store/theme-store";
@@ -13,7 +13,13 @@ type Props = {
 export const AnimatedThemeToggler = ({ className }: Props) => {
   const { theme, toggleTheme } = useThemeStore();
   const buttonRef = useRef<HTMLButtonElement>(null);
+  const [mounted, setMounted] = useState(false);
   const isDark = theme === 'dark';
+
+  // Prevent hydration mismatch by only rendering theme-dependent content after mount
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleToggleTheme = useCallback(async () => {
     if (!buttonRef.current) return;
@@ -53,6 +59,24 @@ export const AnimatedThemeToggler = ({ className }: Props) => {
       }
     );
   }, [toggleTheme]);
+
+  // Show neutral state during SSR to prevent hydration mismatch
+  if (!mounted) {
+    return (
+      <button
+        className={cn(
+          "relative overflow-hidden w-10 h-10 rounded-lg bg-[var(--surface-elevated)] border border-[var(--border-medium)] flex items-center justify-center transition-all duration-300 group",
+          className
+        )}
+        aria-label="Toggle theme"
+        disabled
+      >
+        <div className="relative z-10">
+          <Sun className="w-5 h-5 text-[var(--text-secondary)] opacity-50" />
+        </div>
+      </button>
+    );
+  }
 
   return (
     <button

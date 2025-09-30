@@ -4,9 +4,9 @@ export const COMPANY_INFO = {
   tagline: 'Code at the Speed of Light',
   description: 'Professional websites and mobile apps for Filipino SMEs',
   contact: {
-    email: 'hello@lunaxcode.com',
+    email: 'hello@lunaxcode.site',
     phone: '+63 912 345 6789',
-    location: 'Philippines'
+    location: 'Antipolo City, Rizal, Philippines'
   },
   paymentTerms: {
     deposit: '30-50%',

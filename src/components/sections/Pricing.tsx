@@ -132,45 +132,6 @@ export function Pricing() {
             );
           })}
         </ScrollStagger>
-
-        {/* Bottom Section */}
-        <ScrollReveal direction="up" delay={0.3}>
-          <div className="text-center mt-20">
-            <div className="max-w-3xl mx-auto">
-              <h3 className="text-h3 text-primary mb-4">
-                Need a Custom Solution?
-              </h3>
-              <p className="text-body text-secondary mb-8">
-                Every business is unique. If our standard packages don&apos;t fit your needs perfectly,
-                let&apos;s create a custom solution that&apos;s tailored specifically for your requirements.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button
-                  onClick={() => openModal('custom')}
-                  className="py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--text-primary)] hover:bg-[var(--text-primary)]/90 text-[var(--bg-primary)]"
-                >
-                  <span>Request Custom Quote</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </button>
-                <a href="#contact" className="py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 text-white shadow-lg">
-                  <span>Schedule Consultation</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </a>
-              </div>
-            </div>
-
-            {/* Money Back Guarantee */}
-            <div className="mt-12 p-6 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] rounded-lg max-w-md mx-auto">
-              <div className="flex items-center justify-center gap-2 mb-2">
-                <Check className="w-5 h-5 text-[var(--accent-success)]" />
-                <span className="text-h5 text-primary">30-Day Money Back Guarantee</span>
-              </div>
-              <p className="text-body-sm text-secondary">
-                Not satisfied? Get a full refund within 30 days, no questions asked.
-              </p>
-            </div>
-          </div>
-        </ScrollReveal>
       </div>
     </section>
   );
