@@ -2,10 +2,34 @@
 'use client';
 
 import { Plus, Zap, Shield, Wrench, ArrowRight } from 'lucide-react';
-import { ADDONS } from '@/data/addons';
+import { useAddons } from '@/hooks/useApi';
 
 export function Addons() {
+  const { addons, loading, error } = useAddons();
   const addonIcons = [Plus, Zap, Wrench]; // Icons for each addon
+
+  if (loading) {
+    return (
+      <section id="addons" className="py-[var(--section-padding-lg)] bg-[var(--bg-primary)]">
+        <div className="container mx-auto px-[var(--container-padding)] text-center">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-[var(--surface-elevated)] rounded w-48 mx-auto"></div>
+            <div className="h-4 bg-[var(--surface-elevated)] rounded w-96 mx-auto"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="addons" className="py-[var(--section-padding-lg)] bg-[var(--bg-primary)]">
+        <div className="container mx-auto px-[var(--container-padding)] text-center">
+          <div className="text-red-500">Failed to load add-ons. Please try again later.</div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="addons" className="py-[var(--section-padding-lg)] bg-[var(--bg-primary)] relative overflow-hidden">
@@ -34,7 +58,7 @@ export function Addons() {
 
         {/* Addons Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-          {ADDONS.map((addon, index) => {
+          {addons?.map((addon, index) => {
             const IconComponent = addonIcons[index % addonIcons.length];
             return (
               <div
@@ -61,10 +85,7 @@ export function Addons() {
                   {/* Price Display */}
                   <div className="mb-6">
                     <div className="text-h3 text-primary font-bold mb-2">
-                      ₱{addon.priceRange.replace('-', ' - ₱')}
-                    </div>
-                    <div className="text-body-sm text-secondary">
-                      per {addon.unit}
+                      {addon.price_range}
                     </div>
                   </div>
 

@@ -10,20 +10,20 @@ export function Success() {
   return (
     <div className="text-center">
       <div className="flex justify-center mb-6">
-        <CheckCircle className="w-16 h-16 text-green-500" />
+        <CheckCircle className="w-16 h-16 text-[var(--accent-success)] animate-pulse" />
       </div>
 
-      <h3 className="text-2xl font-bold text-slate-900 mb-4">
+      <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-4">
         Request Submitted Successfully!
       </h3>
 
-      <p className="text-slate-600 mb-6">
+      <p className="text-[var(--text-secondary)] mb-6">
         Thank you for your interest in Lunaxcode! We&apos;ve received your request and will contact you within 24 hours to discuss your project details and next steps.
       </p>
 
-      <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-        <p className="text-blue-800 text-sm">
-          <strong>What happens next?</strong><br />
+      <div className="bg-[var(--accent-primary)]/10 border border-[var(--accent-primary)]/30 rounded-lg p-4 mb-6">
+        <p className="text-[var(--text-secondary)] text-sm text-left">
+          <strong className="text-[var(--text-primary)]">What happens next?</strong><br />
           1. Our team will review your requirements<br />
           2. We&apos;ll send you a detailed proposal<br />
           3. Once approved, we&apos;ll start working on your project<br />
@@ -32,13 +32,13 @@ export function Success() {
       </div>
 
       <div className="space-y-3">
-        <p className="text-sm text-slate-500">
+        <p className="text-sm text-[var(--text-tertiary)]">
           Reference ID: {formData.submissionId}
         </p>
 
         <button
           onClick={closeModal}
-          className="w-full px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition-colors"
+          className="w-full px-6 py-3 bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 text-white rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
         >
           Close
         </button>

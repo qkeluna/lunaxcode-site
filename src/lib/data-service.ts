@@ -1,44 +1,102 @@
-// lib/data-service.ts - Abstraction layer for easy API migration
-import { SERVICES } from '@/data/services';
-import { PRICING_PLANS } from '@/data/pricing';
-import { FEATURES } from '@/data/features';
-import { ONBOARDING_QUESTIONS } from '@/data/onboarding-questions';
-import { COMPANY_INFO } from '@/data/company';
-import { ADDONS } from '@/data/addons';
+// lib/data-service.ts - Abstraction layer for API integration
+import { api } from '@/lib/api';
 import type { OnboardingData, ContactData } from '@/types';
+import type { LeadCreate } from '@/types/api';
 
 export class DataService {
-  // Current implementation uses local data
-  static getServices() {
-    return SERVICES;
+  // Fetch services from API
+  static async getServices() {
+    try {
+      return await api.getServices();
+    } catch (error) {
+      console.error('Failed to fetch services:', error);
+      throw error;
+    }
   }
 
-  static getPricingPlans() {
-    return PRICING_PLANS;
+  // Fetch pricing plans from API
+  static async getPricingPlans() {
+    try {
+      return await api.getPricingPlans();
+    } catch (error) {
+      console.error('Failed to fetch pricing plans:', error);
+      throw error;
+    }
   }
 
-  static getFeatures() {
-    return FEATURES;
+  // Fetch features from API
+  static async getFeatures() {
+    try {
+      return await api.getFeatures();
+    } catch (error) {
+      console.error('Failed to fetch features:', error);
+      throw error;
+    }
   }
 
-  static getOnboardingQuestions(serviceType: string) {
-    return ONBOARDING_QUESTIONS[serviceType as keyof typeof ONBOARDING_QUESTIONS];
+  // Fetch onboarding questions from API
+  static async getOnboardingQuestions(serviceType: string) {
+    try {
+      const schema = await api.getOnboardingQuestions(serviceType);
+      return schema.questions;
+    } catch (error) {
+      console.error('Failed to fetch onboarding questions:', error);
+      throw error;
+    }
   }
 
-  static getCompanyInfo() {
-    return COMPANY_INFO;
+  // Fetch company info from API
+  static async getCompanyInfo() {
+    try {
+      return await api.getCompanyInfo();
+    } catch (error) {
+      console.error('Failed to fetch company info:', error);
+      throw error;
+    }
   }
 
-  static getAddons() {
-    return ADDONS;
+  // Fetch add-ons from API
+  static async getAddons() {
+    try {
+      return await api.getAddons();
+    } catch (error) {
+      console.error('Failed to fetch addons:', error);
+      throw error;
+    }
   }
 
-  // Temporary data persistence
+  // Submit onboarding data as lead to API
   static async saveOnboarding(data: OnboardingData): Promise<{ id: string }> {
+    try {
+      // Transform OnboardingData to LeadCreate format
+      const leadData: LeadCreate = {
+        name: data.basicInfo.name,
+        email: data.basicInfo.email,
+        phone: data.basicInfo.phone,
+        company: data.basicInfo.company,
+        service_type: data.serviceType,
+        budget_range: data.budget,
+        timeline: data.timeline,
+        project_description: data.additionalNotes || '',
+        answers: data.serviceSpecific,
+        source: 'onboarding_form',
+      };
+
+      const lead = await api.createLead(leadData);
+      
+      return { id: lead.id.toString() };
+    } catch (error) {
+      console.error('Failed to submit onboarding:', error);
+      // Fallback to localStorage if API fails
+      return this.saveOnboardingToLocalStorage(data);
+    }
+  }
+
+  // Fallback method for localStorage
+  private static saveOnboardingToLocalStorage(data: OnboardingData): { id: string } {
     const id = `onboarding_${Date.now()}`;
     const timestamp = new Date().toISOString();
 
-    // Save to localStorage for now
     const saved = {
       id,
       ...data,
@@ -48,18 +106,41 @@ export class DataService {
 
     localStorage.setItem(id, JSON.stringify(saved));
 
-    // Also store in a list for easy retrieval
     const existingList = JSON.parse(localStorage.getItem('onboarding_list') || '[]');
     existingList.push(id);
     localStorage.setItem('onboarding_list', JSON.stringify(existingList));
 
-    // Send notification email (if configured)
-    await this.sendNotificationEmail(saved);
-
     return { id };
   }
 
+  // Submit contact form as lead to API
   static async saveContact(data: ContactData): Promise<{ success: boolean }> {
+    try {
+      // Transform ContactData to LeadCreate format
+      const leadData: LeadCreate = {
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        company: data.company,
+        service_type: data.service || 'general_inquiry',
+        budget_range: 'not_specified',
+        project_description: data.message,
+        answers: {},
+        source: 'contact_form',
+      };
+
+      await api.createLead(leadData);
+      
+      return { success: true };
+    } catch (error) {
+      console.error('Failed to submit contact form:', error);
+      // Fallback to localStorage if API fails
+      return this.saveContactToLocalStorage(data);
+    }
+  }
+
+  // Fallback method for localStorage
+  private static saveContactToLocalStorage(data: ContactData): { success: boolean } {
     const id = `contact_${Date.now()}`;
     const timestamp = new Date().toISOString();
 
@@ -70,37 +151,7 @@ export class DataService {
     };
 
     localStorage.setItem(id, JSON.stringify(saved));
-
-    // Send notification email
-    await this.sendContactEmail(saved);
-
+    
     return { success: true };
-  }
-
-  private static async sendNotificationEmail(data: OnboardingData & { id: string; createdAt: string; status: string }) {
-    // Implementation for email notifications
-    console.log('Onboarding notification:', data);
-    // TODO: Integrate with email service (EmailJS, Resend, etc.)
-  }
-
-  private static async sendContactEmail(data: ContactData & { id: string; createdAt: string }) {
-    // Implementation for contact form emails
-    console.log('Contact form submission:', data);
-    // TODO: Integrate with email service
-  }
-
-  // Migration helper for future API integration
-  static async migrateToAPI(apiClient: { createOnboarding: (data: OnboardingData) => Promise<{ id: string }> }) {
-    const onboardingIds = JSON.parse(localStorage.getItem('onboarding_list') || '[]');
-
-    for (const id of onboardingIds) {
-      const data = JSON.parse(localStorage.getItem(id) || '{}') as OnboardingData & { id: string; createdAt: string; status: string };
-      try {
-        await apiClient.createOnboarding(data);
-        localStorage.removeItem(id);
-      } catch (error) {
-        console.error('Migration failed for:', id, error);
-      }
-    }
   }
 }

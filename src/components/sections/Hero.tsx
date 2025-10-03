@@ -1,11 +1,14 @@
 // components/sections/Hero.tsx
+'use client';
+
 import Link from 'next/link';
 import { ArrowDown, Sparkles, ArrowRight } from 'lucide-react';
-import { COMPANY_INFO } from '@/data/company';
+import { useCompanyInfo } from '@/hooks/useApi';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 import { LightRays } from '@/components/magicui/light-rays';
 
 export function Hero() {
+  const { company } = useCompanyInfo();
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-[var(--bg-primary)]">
       {/* Background Elements */}
@@ -42,14 +45,14 @@ export function Hero() {
           {/* Main Headline */}
           <ScrollReveal direction="up" delay={0.1}>
             <h1 className="text-display text-primary mb-6">
-              {COMPANY_INFO.tagline}
+              {company?.tagline}
             </h1>
           </ScrollReveal>
 
           {/* Subtitle */}
           <ScrollReveal direction="up" delay={0.2}>
             <p className="text-body-lg text-secondary max-w-3xl mx-auto mb-8">
-              {COMPANY_INFO.description}
+              {company?.description}
             </p>
           </ScrollReveal>
 

@@ -27,10 +27,16 @@ export interface ContactData {
 export interface OnboardingQuestion {
   id: string;
   label: string;
-  type: 'text' | 'select' | 'checkbox' | 'textarea';
+  type: 'text' | 'textarea' | 'select' | 'radio' | 'checkbox' | 'number' | 'date';
   options?: readonly string[];
   placeholder?: string;
   required: boolean;
+  validation?: {
+    min?: number;
+    max?: number;
+    pattern?: string;
+  };
+  display_order?: number;
 }
 
 export interface Service {

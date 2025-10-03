@@ -3,11 +3,35 @@
 
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { FEATURES } from '@/data/features';
+import { useFeatures } from '@/hooks/useApi';
 import { ScrollReveal, ScrollStagger } from '@/components/ui/ScrollReveal';
 
 export function Features() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const { features, loading, error } = useFeatures();
+
+  if (loading) {
+    return (
+      <section id="features" className="py-[var(--section-padding-lg)] bg-[var(--bg-tertiary)]">
+        <div className="container mx-auto px-[var(--container-padding)] text-center">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-[var(--surface-elevated)] rounded w-64 mx-auto"></div>
+            <div className="h-4 bg-[var(--surface-elevated)] rounded w-96 mx-auto"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="features" className="py-[var(--section-padding-lg)] bg-[var(--bg-tertiary)]">
+        <div className="container mx-auto px-[var(--container-padding)] text-center">
+          <div className="text-red-500">Failed to load features. Please try again later.</div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="features" className="py-[var(--section-padding-lg)] bg-[var(--bg-tertiary)] relative overflow-hidden">
@@ -33,7 +57,7 @@ export function Features() {
 
         {/* Features Grid */}
         <ScrollStagger staggerDelay={0.15} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--grid-gap)] max-w-7xl mx-auto">
-          {FEATURES.map((feature, index) => (
+          {features?.map((feature, index) => (
             <div
               key={index}
               className="card-feature group relative overflow-hidden flex flex-col h-full"

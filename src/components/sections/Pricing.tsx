@@ -1,14 +1,40 @@
 // components/sections/Pricing.tsx
 'use client';
 
-import { PRICING_PLANS } from '@/data/pricing';
 import { useOnboardingStore } from '@/store/onboarding-store';
+import { usePricingPlans } from '@/hooks/useApi';
 import { Check, Star, ArrowRight, Zap } from 'lucide-react';
 import { ScrollReveal, ScrollStagger } from '@/components/ui/ScrollReveal';
 import { ShineBorder } from '@/components/ui/shine-border';
 
 export function Pricing() {
   const openModal = useOnboardingStore(state => state.openModal);
+  const { plans, loading, error } = usePricingPlans();
+
+  // Loading state
+  if (loading) {
+    return (
+      <section id="pricing" className="py-[var(--section-padding-lg)] bg-[var(--bg-primary)]">
+        <div className="container mx-auto px-[var(--container-padding)] text-center">
+          <div className="animate-pulse">
+            <div className="h-8 bg-[var(--surface-elevated)] rounded w-48 mx-auto mb-4"></div>
+            <div className="h-4 bg-[var(--surface-elevated)] rounded w-96 mx-auto"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Error state
+  if (error) {
+    return (
+      <section id="pricing" className="py-[var(--section-padding-lg)] bg-[var(--bg-primary)]">
+        <div className="container mx-auto px-[var(--container-padding)] text-center">
+          <div className="text-red-500">Failed to load pricing plans. Please try again later.</div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="pricing" className="py-[var(--section-padding-lg)] bg-[var(--bg-primary)] relative overflow-hidden">
@@ -38,7 +64,7 @@ export function Pricing() {
 
         {/* Pricing Grid */}
         <ScrollStagger staggerDelay={0.2} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-          {PRICING_PLANS.map((plan, index) => {
+          {plans?.map((plan, index) => {
 
             return (
               <div

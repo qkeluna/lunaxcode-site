@@ -44,13 +44,13 @@ export function OnboardingModal() {
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden animate-in fade-in-0 zoom-in-95 duration-300">
+    <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <div className="bg-[var(--bg-secondary)] rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden animate-in fade-in-0 zoom-in-95 duration-300 border border-[var(--border-subtle)]">
         {/* Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 text-white p-6 relative">
+        <div className="bg-[var(--bg-tertiary)] text-[var(--text-primary)] p-6 relative border-b border-[var(--border-subtle)]">
           <button
             onClick={closeModal}
-            className="absolute top-4 right-4 p-2 hover:bg-white/20 rounded-full transition-colors"
+            className="absolute top-4 right-4 p-2 hover:bg-[var(--surface-elevated)] rounded-full transition-all duration-300"
             aria-label="Close modal"
           >
             <X size={20} />
@@ -58,7 +58,7 @@ export function OnboardingModal() {
 
           <div className="pr-12">
             <h2 className="text-2xl font-bold mb-2">Start Your Project</h2>
-            <p className="text-blue-100">
+            <p className="text-[var(--text-secondary)]">
               Tell us about your needs and we&apos;ll create a custom solution for you.
             </p>
           </div>

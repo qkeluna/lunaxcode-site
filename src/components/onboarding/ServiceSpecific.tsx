@@ -25,10 +25,10 @@ export function ServiceSpecific() {
 
   return (
     <div>
-      <h3 className="text-xl font-semibold text-slate-900 mb-4">
+      <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-4">
         Service-Specific Details
       </h3>
-      <p className="text-slate-600 mb-6">
+      <p className="text-[var(--text-secondary)] mb-6">
         Help us understand your specific requirements for this service.
       </p>
 
@@ -46,7 +46,7 @@ export function ServiceSpecific() {
           <button
             type="button"
             onClick={() => useOnboardingStore.getState().prevStep()}
-            className="px-6 py-3 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+            className="px-6 py-3 border border-[var(--border-medium)] text-[var(--text-primary)] rounded-lg hover:bg-[var(--surface-elevated)] transition-all duration-300"
           >
             Previous
           </button>
@@ -54,7 +54,7 @@ export function ServiceSpecific() {
           <button
             type="submit"
             disabled={!canProceed()}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg font-semibold transition-colors"
+            className="px-6 py-3 bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
           >
             Next Step
           </button>

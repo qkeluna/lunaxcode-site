@@ -1,10 +1,13 @@
 // components/sections/Contact.tsx
+'use client';
+
 import { Mail, Phone, MapPin } from 'lucide-react';
-import { COMPANY_INFO } from '@/data/company';
+import { useCompanyInfo } from '@/hooks/useApi';
 import { ContactForm } from '../forms/ContactForm';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
 
 export function Contact() {
+  const { company } = useCompanyInfo();
   return (
     <section id="contact" className="py-16 lg:py-20 bg-[var(--bg-primary)] relative overflow-hidden">
       {/* Subtle Background Grid */}
@@ -28,24 +31,24 @@ export function Contact() {
               {/* Contact Methods - Minimal List */}
               <div className="space-y-4">
                 <a
-                  href={`mailto:${COMPANY_INFO.contact.email}`}
+                  href={`mailto:${company?.contact.email}`}
                   className="flex items-center gap-4 text-body text-secondary hover:text-primary transition-colors group"
                 >
                   <Mail className="w-5 h-5 text-[var(--text-tertiary)] group-hover:text-[var(--accent-primary)] transition-colors" />
-                  <span>{COMPANY_INFO.contact.email}</span>
+                  <span>{company?.contact.email}</span>
                 </a>
 
                 <a
-                  href={`tel:${COMPANY_INFO.contact.phone}`}
+                  href={`tel:${company?.contact.phone}`}
                   className="flex items-center gap-4 text-body text-secondary hover:text-primary transition-colors group"
                 >
                   <Phone className="w-5 h-5 text-[var(--text-tertiary)] group-hover:text-[var(--accent-primary)] transition-colors" />
-                  <span>{COMPANY_INFO.contact.phone}</span>
+                  <span>{company?.contact.phone}</span>
                 </a>
 
                 <div className="flex items-center gap-4 text-body text-secondary">
                   <MapPin className="w-5 h-5 text-[var(--text-tertiary)]" />
-                  <span>{COMPANY_INFO.contact.location}</span>
+                  <span>{company?.contact.location}</span>
                 </div>
               </div>
 
@@ -59,7 +62,7 @@ export function Contact() {
                 <div>
                   <p className="text-body-sm text-tertiary mb-2">Payment Methods</p>
                   <div className="flex flex-wrap gap-2">
-                    {COMPANY_INFO.paymentTerms.methods.map((method) => (
+                    {company?.payment_terms.methods.map((method: string) => (
                       <span
                         key={method}
                         className="px-3 py-1 bg-[var(--surface-elevated)] text-body-sm text-secondary rounded-lg border border-[var(--border-subtle)]"

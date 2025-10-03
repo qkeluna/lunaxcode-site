@@ -14,7 +14,7 @@ interface OnboardingStore {
   error: string | null;
 
   // Actions
-  openModal: (serviceType: string) => void;
+  openModal: (serviceType: string) => Promise<void>;
   closeModal: () => void;
   setStep: (step: number) => void;
   updateFormData: (data: Partial<OnboardingData>) => void;
@@ -38,15 +38,27 @@ export const useOnboardingStore = create<OnboardingStore>((set, get) => ({
   error: null,
 
   // Actions
-  openModal: (serviceType) => {
-    const questions = DataService.getOnboardingQuestions(serviceType);
-    set({
-      isModalOpen: true,
-      serviceType,
-      questions: questions?.questions ? [...questions.questions] : [],
-      currentStep: 1,
-      formData: { serviceType }
-    });
+  openModal: async (serviceType) => {
+    try {
+      const questions = await DataService.getOnboardingQuestions(serviceType);
+      set({
+        isModalOpen: true,
+        serviceType,
+        questions: questions ? [...questions] : [],
+        currentStep: 1,
+        formData: { serviceType }
+      });
+    } catch (error) {
+      console.error('Failed to load onboarding questions:', error);
+      set({
+        isModalOpen: true,
+        serviceType,
+        questions: [],
+        currentStep: 1,
+        formData: { serviceType },
+        error: 'Failed to load questions. Please try again.'
+      });
+    }
   },
 
   closeModal: () => {
@@ -71,7 +83,7 @@ export const useOnboardingStore = create<OnboardingStore>((set, get) => ({
       const result = await DataService.saveOnboarding(formData as OnboardingData);
 
       // Generate JSON prompt
-      const prompt = generateProjectPrompt(formData as OnboardingData);
+      const prompt = await generateProjectPrompt(formData as OnboardingData);
 
       // Update form data with generated prompt
       set(state => ({
@@ -140,11 +152,12 @@ export const useOnboardingStore = create<OnboardingStore>((set, get) => ({
 }));
 
 // Helper function to generate project prompt
-function generateProjectPrompt(data: OnboardingData): string {
-  const serviceQuestions = DataService.getOnboardingQuestions(data.serviceType);
+async function generateProjectPrompt(data: OnboardingData): Promise<string> {
   const serviceSpecificData = data.serviceSpecific;
 
-  let prompt = `Project Requirements for ${data.serviceType}:\n\n`;
+  let prompt = `Project Requirements for ${data.serviceType}:
+
+`;
   prompt += `Basic Information:\n`;
   prompt += `- Name: ${data.basicInfo.name}\n`;
   prompt += `- Email: ${data.basicInfo.email}\n`;
@@ -153,14 +166,21 @@ function generateProjectPrompt(data: OnboardingData): string {
     prompt += `- Company: ${data.basicInfo.company}\n`;
   }
 
-  prompt += `\nService-Specific Requirements:\n`;
-  if (serviceQuestions?.questions) {
-    serviceQuestions.questions.forEach(question => {
+  prompt += `
+Service-Specific Requirements:
+`;
+  try {
+    const questions = await DataService.getOnboardingQuestions(data.serviceType);
+    if (questions) {
+      questions.forEach(question => {
       const answer = serviceSpecificData?.[question.id];
       if (answer) {
         prompt += `- ${question.label}: ${Array.isArray(answer) ? answer.join(', ') : answer}\n`;
       }
-    });
+      });
+    }
+  } catch (error) {
+    console.error('Failed to load questions for prompt generation:', error);
   }
 
   if (data.additionalNotes) {

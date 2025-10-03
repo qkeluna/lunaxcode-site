@@ -2,12 +2,36 @@
 'use client';
 
 import { Clock, ArrowRight } from 'lucide-react';
-import { SERVICES } from '@/data/services';
+import { useServices } from '@/hooks/useApi';
 import { useOnboardingStore } from '@/store/onboarding-store';
 import { ScrollReveal, ScrollStagger } from '@/components/ui/ScrollReveal';
 
 export function Services() {
   const openModal = useOnboardingStore(state => state.openModal);
+  const { services, loading, error } = useServices();
+
+  if (loading) {
+    return (
+      <section id="services" className="py-[var(--section-padding-lg)] bg-[var(--bg-secondary)]">
+        <div className="container mx-auto px-[var(--container-padding)] text-center">
+          <div className="animate-pulse space-y-4">
+            <div className="h-8 bg-[var(--surface-elevated)] rounded w-48 mx-auto"></div>
+            <div className="h-4 bg-[var(--surface-elevated)] rounded w-96 mx-auto"></div>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section id="services" className="py-[var(--section-padding-lg)] bg-[var(--bg-secondary)]">
+        <div className="container mx-auto px-[var(--container-padding)] text-center">
+          <div className="text-red-500">Failed to load services. Please try again later.</div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="services" className="py-[var(--section-padding-lg)] bg-[var(--bg-secondary)]">
@@ -27,7 +51,7 @@ export function Services() {
 
         {/* Services Grid */}
         <ScrollStagger staggerDelay={0.15} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[var(--grid-gap)] max-w-7xl mx-auto">
-          {SERVICES.map((service) => (
+          {services?.map((service) => (
             <div
               key={service.id}
               className="card-feature group"

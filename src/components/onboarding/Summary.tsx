@@ -2,11 +2,12 @@
 'use client';
 
 import { useOnboardingStore } from '@/store/onboarding-store';
-import { DataService } from '@/lib/data-service';
+import { useServices } from '@/hooks/useApi';
 
 export function Summary() {
   const { formData, submitOnboarding, isLoading, error } = useOnboardingStore();
-  const service = DataService.getServices().find(s => s.id === formData.serviceType);
+  const { services } = useServices();
+  const service = services?.find(s => s.id === formData.serviceType);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,35 +16,35 @@ export function Summary() {
 
   return (
     <div>
-      <h3 className="text-xl font-semibold text-slate-900 mb-4">Review Your Information</h3>
-      <p className="text-slate-600 mb-6">
+      <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-4">Review Your Information</h3>
+      <p className="text-[var(--text-secondary)] mb-6">
         Please review your information before submitting your request.
       </p>
 
-      <div className="bg-slate-50 rounded-lg p-6 space-y-4 mb-6">
+      <div className="bg-[var(--surface-elevated)] rounded-lg p-6 space-y-4 mb-6 border border-[var(--border-subtle)]">
         <div>
-          <h4 className="font-semibold text-slate-900 mb-2">Service Selected</h4>
-          <p className="text-slate-700">{service?.name}</p>
+          <h4 className="font-semibold text-[var(--text-primary)] mb-2">Service Selected</h4>
+          <p className="text-[var(--text-secondary)]">{service?.name}</p>
         </div>
 
         <div>
-          <h4 className="font-semibold text-slate-900 mb-2">Basic Information</h4>
-          <div className="text-slate-700 space-y-1">
-            <p><strong>Name:</strong> {formData.basicInfo?.name}</p>
-            <p><strong>Email:</strong> {formData.basicInfo?.email}</p>
-            <p><strong>Phone:</strong> {formData.basicInfo?.phone}</p>
+          <h4 className="font-semibold text-[var(--text-primary)] mb-2">Basic Information</h4>
+          <div className="text-[var(--text-secondary)] space-y-1">
+            <p><strong className="text-[var(--text-primary)]">Name:</strong> {formData.basicInfo?.name}</p>
+            <p><strong className="text-[var(--text-primary)]">Email:</strong> {formData.basicInfo?.email}</p>
+            <p><strong className="text-[var(--text-primary)]">Phone:</strong> {formData.basicInfo?.phone}</p>
             {formData.basicInfo?.company && (
-              <p><strong>Company:</strong> {formData.basicInfo.company}</p>
+              <p><strong className="text-[var(--text-primary)]">Company:</strong> {formData.basicInfo.company}</p>
             )}
           </div>
         </div>
 
         <div>
-          <h4 className="font-semibold text-slate-900 mb-2">Service Requirements</h4>
-          <div className="text-slate-700">
+          <h4 className="font-semibold text-[var(--text-primary)] mb-2">Service Requirements</h4>
+          <div className="text-[var(--text-secondary)]">
             {formData.serviceSpecific && Object.entries(formData.serviceSpecific).map(([key, value]) => (
               <p key={key}>
-                <strong>{key}:</strong> {Array.isArray(value) ? value.join(', ') : value}
+                <strong className="text-[var(--text-primary)]">{key}:</strong> {Array.isArray(value) ? value.join(', ') : value}
               </p>
             ))}
           </div>
@@ -51,8 +52,8 @@ export function Summary() {
       </div>
 
       {error && (
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
-          <p className="text-red-800">{error}</p>
+        <div className="bg-[var(--accent-error)]/10 border border-[var(--accent-error)] rounded-lg p-4 mb-4">
+          <p className="text-[var(--accent-error)]">{error}</p>
         </div>
       )}
 
@@ -61,7 +62,7 @@ export function Summary() {
           <button
             type="button"
             onClick={() => useOnboardingStore.getState().prevStep()}
-            className="px-6 py-3 border border-slate-300 text-slate-700 rounded-lg hover:bg-slate-50 transition-colors"
+            className="px-6 py-3 border border-[var(--border-medium)] text-[var(--text-primary)] rounded-lg hover:bg-[var(--surface-elevated)] transition-all duration-300"
             disabled={isLoading}
           >
             Previous
@@ -70,7 +71,7 @@ export function Summary() {
           <button
             type="submit"
             disabled={isLoading}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg font-semibold transition-colors"
+            className="px-6 py-3 bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
           >
             {isLoading ? 'Submitting...' : 'Submit Request'}
           </button>

@@ -29,12 +29,12 @@ export function BasicInfo() {
 
   return (
     <div>
-      <h3 className="text-xl font-semibold text-slate-900 mb-4">Tell us about yourself</h3>
+      <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-4">Tell us about yourself</h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-slate-700 mb-2">
+            <label htmlFor="name" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
               Full Name *
             </label>
             <input
@@ -43,13 +43,13 @@ export function BasicInfo() {
               required
               value={formData.basicInfo?.name || ''}
               onChange={(e) => handleChange('name', e.target.value)}
-              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] rounded-lg focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] transition-all duration-300"
               placeholder="Your full name"
             />
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-2">
+            <label htmlFor="email" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
               Email Address *
             </label>
             <input
@@ -58,7 +58,7 @@ export function BasicInfo() {
               required
               value={formData.basicInfo?.email || ''}
               onChange={(e) => handleChange('email', e.target.value)}
-              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] rounded-lg focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] transition-all duration-300"
               placeholder="your@email.com"
             />
           </div>
@@ -66,7 +66,7 @@ export function BasicInfo() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-2">
+            <label htmlFor="phone" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
               Phone Number *
             </label>
             <input
@@ -75,13 +75,13 @@ export function BasicInfo() {
               required
               value={formData.basicInfo?.phone || ''}
               onChange={(e) => handleChange('phone', e.target.value)}
-              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] rounded-lg focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] transition-all duration-300"
               placeholder="+63 912 345 6789"
             />
           </div>
 
           <div>
-            <label htmlFor="company" className="block text-sm font-medium text-slate-700 mb-2">
+            <label htmlFor="company" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
               Company Name
             </label>
             <input
@@ -89,7 +89,7 @@ export function BasicInfo() {
               id="company"
               value={formData.basicInfo?.company || ''}
               onChange={(e) => handleChange('company', e.target.value)}
-              className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className="w-full px-4 py-3 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] rounded-lg focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] transition-all duration-300"
               placeholder="Your company (optional)"
             />
           </div>
@@ -99,7 +99,7 @@ export function BasicInfo() {
           <button
             type="submit"
             disabled={!canProceed()}
-            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg font-semibold transition-colors"
+            className="px-6 py-3 bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 disabled:opacity-50 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-all duration-300 transform hover:scale-105"
           >
             Next Step
           </button>

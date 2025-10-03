@@ -37,7 +37,7 @@ export function QuestionRenderer({ question, value, onChange }: QuestionRenderer
             onChange={handleTextChange}
             placeholder={question.placeholder}
             required={question.required}
-            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-3 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] rounded-lg focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] transition-all duration-300"
           />
         );
 
@@ -49,7 +49,7 @@ export function QuestionRenderer({ question, value, onChange }: QuestionRenderer
             placeholder={question.placeholder}
             required={question.required}
             rows={4}
-            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
+            className="w-full px-4 py-3 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-[var(--text-primary)] placeholder:text-[var(--text-tertiary)] rounded-lg focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] transition-all duration-300 resize-vertical"
           />
         );
 
@@ -59,11 +59,11 @@ export function QuestionRenderer({ question, value, onChange }: QuestionRenderer
             value={value as string || ''}
             onChange={handleSelectChange}
             required={question.required}
-            className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full px-4 py-3 bg-[var(--surface-elevated)] border border-[var(--border-subtle)] text-[var(--text-primary)] rounded-lg focus:ring-2 focus:ring-[var(--accent-primary)] focus:border-[var(--accent-primary)] transition-all duration-300"
           >
-            <option value="">Select an option...</option>
+            <option value="" className="bg-[var(--bg-secondary)]">Select an option...</option>
             {question.options?.map((option) => (
-              <option key={option} value={option}>
+              <option key={option} value={option} className="bg-[var(--bg-secondary)]">
                 {option}
               </option>
             ))}
@@ -74,14 +74,14 @@ export function QuestionRenderer({ question, value, onChange }: QuestionRenderer
         return (
           <div className="space-y-3">
             {question.options?.map((option) => (
-              <label key={option} className="flex items-center">
+              <label key={option} className="flex items-center cursor-pointer group">
                 <input
                   type="checkbox"
                   checked={Array.isArray(value) && value.includes(option)}
                   onChange={(e) => handleCheckboxChange(option, e.target.checked)}
-                  className="w-4 h-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
+                  className="w-4 h-4 text-[var(--accent-primary)] bg-[var(--surface-elevated)] border-[var(--border-subtle)] rounded focus:ring-2 focus:ring-[var(--accent-primary)] transition-all duration-300"
                 />
-                <span className="ml-3 text-slate-700">{option}</span>
+                <span className="ml-3 text-[var(--text-secondary)] group-hover:text-[var(--text-primary)] transition-colors duration-300">{option}</span>
               </label>
             ))}
           </div>
@@ -94,9 +94,9 @@ export function QuestionRenderer({ question, value, onChange }: QuestionRenderer
 
   return (
     <div className="space-y-2">
-      <label className="block text-sm font-medium text-slate-700">
+      <label className="block text-sm font-medium text-[var(--text-secondary)]">
         {question.label}
-        {question.required && <span className="text-red-500 ml-1">*</span>}
+        {question.required && <span className="text-[var(--accent-error)] ml-1">*</span>}
       </label>
       {renderInput()}
     </div>
