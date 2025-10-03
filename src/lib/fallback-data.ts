@@ -9,6 +9,7 @@ import type { PricingPlan, Service, Feature, Addon, CompanyInfo } from '@/types/
 // Transform local data to match API format
 export const fallbackPricingPlans: PricingPlan[] = PRICING_PLANS.map(plan => ({
   ...plan,
+  features: [...plan.features], // Convert readonly array to mutable array
   created_at: new Date().toISOString(),
   updated_at: new Date().toISOString(),
 }));
@@ -43,6 +44,9 @@ export const fallbackCompanyInfo: CompanyInfo = {
   tagline: COMPANY_INFO.tagline,
   description: COMPANY_INFO.description,
   contact: COMPANY_INFO.contact,
-  payment_terms: COMPANY_INFO.paymentTerms,
+  payment_terms: {
+    ...COMPANY_INFO.paymentTerms,
+    methods: [...COMPANY_INFO.paymentTerms.methods], // Convert readonly array to mutable array
+  },
   updated_at: new Date().toISOString(),
 };
