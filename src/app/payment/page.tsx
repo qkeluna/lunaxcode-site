@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { CheckCircle2, Mail, Calendar, ArrowRight, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
-export default function PaymentPage() {
+function PaymentContent() {
   const searchParams = useSearchParams();
   const [submissionId, setSubmissionId] = useState<string>('');
   const [serviceType, setServiceType] = useState<string>('');
@@ -166,5 +166,17 @@ export default function PaymentPage() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function PaymentPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
+        <div className="text-body text-secondary">Loading...</div>
+      </div>
+    }>
+      <PaymentContent />
+    </Suspense>
   );
 }
