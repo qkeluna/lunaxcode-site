@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosError } from 'axios';
+import axios, { AxiosInstance, AxiosError, AxiosResponse } from 'axios';
 import type {
   PricingPlan,
   Service,
@@ -29,8 +29,10 @@ class ApiService {
     });
 
     // Response interceptor for error handling
+    const responseSuccessHandler = <T>(response: AxiosResponse<T>) => response;
+
     this.client.interceptors.response.use(
-      (response) => response,
+      responseSuccessHandler,
       (error: AxiosError<ApiError>) => {
         if (error.response) {
           // Server responded with error
@@ -44,8 +46,7 @@ class ApiService {
           
           // Handle validation errors (422)
           if (error.response.status === 422 && error.response.data) {
-            const validationError = error.response.data as any;
-            console.error('🔍 Validation Details:', validationError);
+            console.error('🔍 Validation Details:', error.response.data);
           }
           
           throw new Error(error.response.data.detail || 'An error occurred');

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 interface NavigationProps {
   logo: React.ReactNode;
@@ -23,7 +23,6 @@ export const Navigation: React.FC<NavigationProps> = ({
   ctaButton,
   loginButton,
 }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <nav

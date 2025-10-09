@@ -4,6 +4,14 @@ import { EmailService } from '@/lib/email-service';
 import type { OnboardingData, ContactData } from '@/types';
 import type { LeadCreate } from '@/types/api';
 
+type ErrorWithResponse = {
+  message?: string;
+  response?: {
+    data?: unknown;
+    status?: number;
+  };
+};
+
 export class DataService {
   // Fetch services from API
   static async getServices() {
@@ -108,15 +116,23 @@ export class DataService {
       } catch (emailError) {
         console.warn('⚠️ Email notification failed (non-critical):', emailError);
       }
-      
+
       return { id: lead.id.toString() };
-    } catch (error: any) {
+    } catch (error) {
       console.error('❌ API Error - Using localStorage fallback:', error);
-      console.error('❌ Error details:', {
-        message: error.message,
-        response: error.response?.data,
-        status: error.response?.status,
-      });
+
+      if (typeof error === 'object' && error !== null) {
+        const normalizedError = error as ErrorWithResponse;
+        console.error('❌ Error details:', {
+          message: normalizedError.message ?? 'Unknown error',
+          response: normalizedError.response?.data,
+          status: normalizedError.response?.status,
+        });
+      } else {
+        console.error('❌ Error details:', {
+          message: String(error),
+        });
+      }
       // Fallback to localStorage if API fails
       return this.saveOnboardingToLocalStorage(data);
     }
@@ -134,11 +150,12 @@ export class DataService {
       status: 'pending'
     };
 
-    localStorage.setItem(id, JSON.stringify(saved));
+  localStorage.setItem(id, JSON.stringify(saved));
 
-    const existingList = JSON.parse(localStorage.getItem('onboarding_list') || '[]');
-    existingList.push(id);
-    localStorage.setItem('onboarding_list', JSON.stringify(existingList));
+  const onboardingListRaw = localStorage.getItem('onboarding_list');
+  const existingList: string[] = onboardingListRaw ? JSON.parse(onboardingListRaw) : [];
+  existingList.push(id);
+  localStorage.setItem('onboarding_list', JSON.stringify(existingList));
 
     return { id };
   }

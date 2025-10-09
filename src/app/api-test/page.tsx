@@ -2,21 +2,29 @@
 
 import { useState } from 'react';
 import { api } from '@/lib/api';
+import type {
+  HealthResponse,
+  DatabaseHealthResponse,
+  Lead,
+  LeadCreate,
+} from '@/types/api';
+
+type ApiTestResult = HealthResponse | DatabaseHealthResponse | Lead;
 
 export default function ApiTestPage() {
   const [status, setStatus] = useState<string>('Not tested');
-  const [result, setResult] = useState<any>(null);
+  const [result, setResult] = useState<ApiTestResult | null>(null);
   const [error, setError] = useState<string>('');
 
   const testHealthCheck = async () => {
     setStatus('Testing health check...');
     setError('');
     try {
-      const health = await api.healthCheck();
+  const health = await api.healthCheck();
       setResult(health);
       setStatus('✅ Health check passed');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
       setStatus('❌ Health check failed');
     }
   };
@@ -25,11 +33,11 @@ export default function ApiTestPage() {
     setStatus('Testing database...');
     setError('');
     try {
-      const dbHealth = await api.databaseHealth();
+  const dbHealth = await api.databaseHealth();
       setResult(dbHealth);
       setStatus('✅ Database connected');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
       setStatus('❌ Database connection failed');
     }
   };
@@ -38,7 +46,7 @@ export default function ApiTestPage() {
     setStatus('Testing lead creation...');
     setError('');
     try {
-      const testLead = {
+      const testLead: LeadCreate = {
         full_name: 'Test User',
         email: 'test@example.com',
         phone: '123-456-7890',
@@ -50,11 +58,11 @@ export default function ApiTestPage() {
         answers: { test: 'value' },
         source: 'api_test',
       };
-      const lead = await api.createLead(testLead);
+  const lead = await api.createLead(testLead);
       setResult(lead);
       setStatus('✅ Lead created successfully');
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Unknown error');
       setStatus('❌ Lead creation failed');
     }
   };
