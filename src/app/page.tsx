@@ -8,12 +8,13 @@ import { Addons } from '@/components/sections/Addons';
 import { Process } from '@/components/sections/Process';
 import { Contact } from '@/components/sections/Contact';
 import { OnboardingModal } from '@/components/onboarding/OnboardingModal';
+import { OnboardingPrefetch } from '@/components/onboarding/OnboardingPrefetch';
 
 export default function Home() {
   return (
     <div className="min-h-screen">
       <Header />
-      <main>
+      <main id="main-content">
         <Hero />
         <Services />
         <Features />
@@ -24,6 +25,7 @@ export default function Home() {
       </main>
       <Footer />
       <OnboardingModal />
+      <OnboardingPrefetch />
     </div>
   );
 }

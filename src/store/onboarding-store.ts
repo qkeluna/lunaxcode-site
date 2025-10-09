@@ -1,7 +1,18 @@
 // store/onboarding-store.ts
 import { create } from 'zustand';
 import { DataService } from '@/lib/data-service';
+import { QueryClient } from '@tanstack/react-query';
 import type { OnboardingData, OnboardingQuestion } from '@/types';
+
+// Create a separate QueryClient for use outside React components
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000,
+      gcTime: 10 * 60 * 1000,
+    },
+  },
+});
 
 interface OnboardingStore {
   // State
@@ -40,14 +51,33 @@ export const useOnboardingStore = create<OnboardingStore>((set, get) => ({
   // Actions
   openModal: async (serviceType) => {
     try {
-      const questions = await DataService.getOnboardingQuestions(serviceType);
-      set({
-        isModalOpen: true,
-        serviceType,
-        questions: questions ? [...questions] : [],
-        currentStep: 1,
-        formData: { serviceType }
-      });
+      // Try to get cached questions first for instant loading
+      const cachedQuestions = queryClient.getQueryData<OnboardingQuestion[]>(['onboarding', serviceType]);
+
+      if (cachedQuestions) {
+        // Use cached data immediately - no loading delay!
+        set({
+          isModalOpen: true,
+          serviceType,
+          questions: [...cachedQuestions],
+          currentStep: 1,
+          formData: { serviceType }
+        });
+      } else {
+        // No cache, fetch and wait
+        const questions = await queryClient.fetchQuery({
+          queryKey: ['onboarding', serviceType],
+          queryFn: () => DataService.getOnboardingQuestions(serviceType),
+        });
+
+        set({
+          isModalOpen: true,
+          serviceType,
+          questions: questions ? [...questions] : [],
+          currentStep: 1,
+          formData: { serviceType }
+        });
+      }
     } catch (error) {
       console.error('Failed to load onboarding questions:', error);
       set({
@@ -170,13 +200,19 @@ async function generateProjectPrompt(data: OnboardingData): Promise<string> {
 Service-Specific Requirements:
 `;
   try {
-    const questions = await DataService.getOnboardingQuestions(data.serviceType);
+    // Try to get from cache first, fallback to API
+    let questions = queryClient.getQueryData<OnboardingQuestion[]>(['onboarding', data.serviceType]);
+
+    if (!questions) {
+      questions = await DataService.getOnboardingQuestions(data.serviceType);
+    }
+
     if (questions) {
       questions.forEach(question => {
-      const answer = serviceSpecificData?.[question.id];
-      if (answer) {
-        prompt += `- ${question.label}: ${Array.isArray(answer) ? answer.join(', ') : answer}\n`;
-      }
+        const answer = serviceSpecificData?.[question.id];
+        if (answer) {
+          prompt += `- ${question.label}: ${Array.isArray(answer) ? answer.join(', ') : answer}\n`;
+        }
       });
     }
   } catch (error) {

@@ -1,6 +1,6 @@
 'use client';
 
-import useSWR from 'swr';
+import { useQuery } from '@tanstack/react-query';
 import { api } from '@/lib/api';
 import {
   fallbackPricingPlans,
@@ -12,76 +12,64 @@ import {
 
 // Custom hook for pricing plans
 export function usePricingPlans() {
-  const { data, error, isLoading, mutate } = useSWR(
-    'pricing-plans',
-    async () => {
+  const { data, error, isLoading, refetch } = useQuery({
+    queryKey: ['pricing-plans'],
+    queryFn: async () => {
       try {
         return await api.getPricingPlans();
-      } catch (err) {
+      } catch {
         console.warn('API unavailable, using fallback data for pricing plans');
         return fallbackPricingPlans;
       }
     },
-    {
-      revalidateOnFocus: false,
-      dedupingInterval: 60000, // 1 minute
-      fallbackData: fallbackPricingPlans,
-    }
-  );
+    initialData: fallbackPricingPlans,
+  });
 
   return {
     plans: data,
     loading: isLoading,
-    error: error && !data ? error : null, // Don't show error if we have fallback data
-    refetch: mutate,
+    error: error && !data ? error : null,
+    refetch,
   };
 }
 
 // Custom hook for services
 export function useServices() {
-  const { data, error, isLoading, mutate } = useSWR(
-    'services',
-    async () => {
+  const { data, error, isLoading, refetch } = useQuery({
+    queryKey: ['services'],
+    queryFn: async () => {
       try {
         return await api.getServices();
-      } catch (err) {
+      } catch {
         console.warn('API unavailable, using fallback data for services');
         return fallbackServices;
       }
     },
-    {
-      revalidateOnFocus: false,
-      dedupingInterval: 60000,
-      fallbackData: fallbackServices,
-    }
-  );
+    initialData: fallbackServices,
+  });
 
   return {
     services: data,
     loading: isLoading,
     error: error && !data ? error : null,
-    refetch: mutate,
+    refetch,
   };
 }
 
 // Custom hook for features
 export function useFeatures() {
-  const { data, error, isLoading } = useSWR(
-    'features',
-    async () => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['features'],
+    queryFn: async () => {
       try {
         return await api.getFeatures();
-      } catch (err) {
+      } catch {
         console.warn('API unavailable, using fallback data for features');
         return fallbackFeatures;
       }
     },
-    {
-      revalidateOnFocus: false,
-      dedupingInterval: 60000,
-      fallbackData: fallbackFeatures,
-    }
-  );
+    initialData: fallbackFeatures,
+  });
 
   return {
     features: data,
@@ -92,22 +80,18 @@ export function useFeatures() {
 
 // Custom hook for add-ons
 export function useAddons() {
-  const { data, error, isLoading } = useSWR(
-    'addons',
-    async () => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['addons'],
+    queryFn: async () => {
       try {
         return await api.getAddons();
-      } catch (err) {
+      } catch {
         console.warn('API unavailable, using fallback data for addons');
         return fallbackAddons;
       }
     },
-    {
-      revalidateOnFocus: false,
-      dedupingInterval: 60000,
-      fallbackData: fallbackAddons,
-    }
-  );
+    initialData: fallbackAddons,
+  });
 
   return {
     addons: data,
@@ -118,22 +102,19 @@ export function useAddons() {
 
 // Custom hook for company info
 export function useCompanyInfo() {
-  const { data, error, isLoading } = useSWR(
-    'company-info',
-    async () => {
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['company-info'],
+    queryFn: async () => {
       try {
         return await api.getCompanyInfo();
-      } catch (err) {
+      } catch {
         console.warn('API unavailable, using fallback data for company info');
         return fallbackCompanyInfo;
       }
     },
-    {
-      revalidateOnFocus: false,
-      dedupingInterval: 300000, // 5 minutes - rarely changes
-      fallbackData: fallbackCompanyInfo,
-    }
-  );
+    initialData: fallbackCompanyInfo,
+    staleTime: 5 * 60 * 1000, // 5 minutes - rarely changes
+  });
 
   return {
     company: data,
@@ -144,14 +125,11 @@ export function useCompanyInfo() {
 
 // Custom hook for onboarding questions
 export function useOnboardingQuestions(serviceType: string | null) {
-  const { data, error, isLoading } = useSWR(
-    serviceType ? `onboarding-${serviceType}` : null,
-    () => serviceType ? api.getOnboardingQuestions(serviceType) : null,
-    {
-      revalidateOnFocus: false,
-      dedupingInterval: 60000,
-    }
-  );
+  const { data, error, isLoading } = useQuery({
+    queryKey: serviceType ? ['onboarding', serviceType] : ['onboarding'],
+    queryFn: () => serviceType ? api.getOnboardingQuestions(serviceType) : null,
+    enabled: !!serviceType,
+  });
 
   return {
     schema: data,
@@ -169,19 +147,17 @@ export function useApi<T>(
     dedupingInterval?: number;
   }
 ) {
-  const { data, error, isLoading, mutate } = useSWR(
-    key,
-    fetchFunction,
-    {
-      revalidateOnFocus: options?.revalidateOnFocus ?? false,
-      dedupingInterval: options?.dedupingInterval ?? 60000,
-    }
-  );
+  const { data, error, isLoading, refetch } = useQuery({
+    queryKey: [key],
+    queryFn: fetchFunction,
+    refetchOnWindowFocus: options?.revalidateOnFocus ?? false,
+    staleTime: options?.dedupingInterval ?? 60000,
+  });
 
   return {
     data,
     loading: isLoading,
     error,
-    refetch: mutate,
+    refetch,
   };
 }

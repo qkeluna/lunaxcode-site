@@ -3,7 +3,7 @@
 
 import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
-import { DataService } from '@/lib/data-service';
+import { useSubmitContact } from '@/hooks/use-data';
 import type { ContactData } from '@/types';
 
 export function ContactForm() {
@@ -14,29 +14,29 @@ export function ContactForm() {
     company: '',
     message: ''
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+
+  const { mutate: submitContact, isPending } = useSubmitContact();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
 
-    try {
-      await DataService.saveContact(formData as ContactData);
-      setSubmitted(true);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        message: ''
-      });
-    } catch (error) {
-      console.error('Contact form submission error:', error);
-      alert('Failed to send message. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
+    submitContact(formData as ContactData, {
+      onSuccess: () => {
+        setSubmitted(true);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          company: '',
+          message: ''
+        });
+      },
+      onError: (error) => {
+        console.error('Contact form submission error:', error);
+        alert('Failed to send message. Please try again.');
+      }
+    });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -146,11 +146,11 @@ export function ContactForm() {
 
       <button
         type="submit"
-        disabled={isSubmitting}
+        disabled={isPending}
         className="w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 disabled:bg-[var(--accent-primary)]/50 text-white shadow-lg"
       >
-        <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
-        {!isSubmitting && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+        <span>{isPending ? 'Sending...' : 'Send Message'}</span>
+        {!isPending && <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />}
       </button>
     </form>
   );

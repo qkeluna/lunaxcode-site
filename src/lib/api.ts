@@ -34,7 +34,20 @@ class ApiService {
       (error: AxiosError<ApiError>) => {
         if (error.response) {
           // Server responded with error
-          console.warn('API Error:', error.response.data);
+          console.error('❌ API Error Response:', {
+            status: error.response.status,
+            data: error.response.data,
+            url: error.config?.url,
+            method: error.config?.method,
+            requestData: error.config?.data,
+          });
+          
+          // Handle validation errors (422)
+          if (error.response.status === 422 && error.response.data) {
+            const validationError = error.response.data as any;
+            console.error('🔍 Validation Details:', validationError);
+          }
+          
           throw new Error(error.response.data.detail || 'An error occurred');
         } else if (error.request) {
           // Request made but no response (timeout, network, CORS, etc.)

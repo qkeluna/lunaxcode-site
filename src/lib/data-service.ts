@@ -1,5 +1,6 @@
 // lib/data-service.ts - Abstraction layer for API integration
 import { api } from '@/lib/api';
+import { EmailService } from '@/lib/email-service';
 import type { OnboardingData, ContactData } from '@/types';
 import type { LeadCreate } from '@/types/api';
 
@@ -68,25 +69,54 @@ export class DataService {
   // Submit onboarding data as lead to API
   static async saveOnboarding(data: OnboardingData): Promise<{ id: string }> {
     try {
+      console.log('📤 Submitting onboarding data:', JSON.stringify(data, null, 2));
+      
+      // Get service info to use default timeline if not provided
+      const services = await this.getServices();
+      const service = services.find(s => s.id === data.serviceType);
+      const defaultTimeline = service?.timeline || '1-2 weeks';
+      
+      // Create project description from additional notes or service-specific answers
+      const projectDescription = data.additionalNotes || 
+        (Object.keys(data.serviceSpecific || {}).length > 0 
+          ? `Service requirements: ${JSON.stringify(data.serviceSpecific)}`
+          : `${service?.name || 'Project'} request`);
+      
       // Transform OnboardingData to LeadCreate format
       const leadData: LeadCreate = {
-        name: data.basicInfo.name,
+        full_name: data.basicInfo.name,
         email: data.basicInfo.email,
-        phone: data.basicInfo.phone,
-        company: data.basicInfo.company,
+        phone: this.formatPhilippinePhone(data.basicInfo.phone),
+        company: data.basicInfo.company || undefined,
         service_type: data.serviceType,
-        budget_range: data.budget,
-        timeline: data.timeline,
-        project_description: data.additionalNotes || '',
-        answers: data.serviceSpecific,
+        budget_range: data.budget || 'not_specified',
+        timeline: data.timeline || defaultTimeline,
+        project_description: projectDescription,
+        answers: data.serviceSpecific || {},
         source: 'onboarding_form',
       };
 
+      console.log('📡 Sending to API:', JSON.stringify(leadData, null, 2));
+      
       const lead = await api.createLead(leadData);
       
+      console.log('✅ API Response:', lead);
+      
+      // Send email notification to admin
+      try {
+        await EmailService.sendOnboardingNotification(data);
+      } catch (emailError) {
+        console.warn('⚠️ Email notification failed (non-critical):', emailError);
+      }
+      
       return { id: lead.id.toString() };
-    } catch (error) {
-      console.error('Failed to submit onboarding:', error);
+    } catch (error: any) {
+      console.error('❌ API Error - Using localStorage fallback:', error);
+      console.error('❌ Error details:', {
+        message: error.message,
+        response: error.response?.data,
+        status: error.response?.status,
+      });
       // Fallback to localStorage if API fails
       return this.saveOnboardingToLocalStorage(data);
     }
@@ -116,20 +146,28 @@ export class DataService {
   // Submit contact form as lead to API
   static async saveContact(data: ContactData): Promise<{ success: boolean }> {
     try {
+      console.log('📤 Submitting contact data:', data);
+      
       // Transform ContactData to LeadCreate format
       const leadData: LeadCreate = {
-        name: data.name,
+        full_name: data.name,
         email: data.email,
-        phone: data.phone,
-        company: data.company,
+        phone: this.formatPhilippinePhone(data.phone),
+        company: data.company || undefined,
         service_type: data.service || 'general_inquiry',
         budget_range: 'not_specified',
-        project_description: data.message,
+        project_description: data.message || undefined,
         answers: {},
         source: 'contact_form',
       };
 
-      await api.createLead(leadData);
+      console.log('📡 Sending contact to API:', leadData);
+
+      const lead = await api.createLead(leadData);
+      console.log('✅ Contact API Response:', lead);
+      
+      // Send email notification to admin
+      await EmailService.sendContactNotification(data);
       
       return { success: true };
     } catch (error) {
@@ -153,5 +191,29 @@ export class DataService {
     localStorage.setItem(id, JSON.stringify(saved));
     
     return { success: true };
+  }
+
+  // Helper to validate and format Philippine phone numbers
+  private static formatPhilippinePhone(phone: string | undefined): string | undefined {
+    if (!phone) return undefined;
+    
+    // Remove all non-digit characters
+    const digits = phone.replace(/\D/g, '');
+    
+    // Handle different Philippine phone formats
+    if (digits.startsWith('63')) {
+      // Already has country code
+      return `+${digits}`;
+    } else if (digits.startsWith('9') && digits.length === 10) {
+      // Mobile number without country code (e.g., 9171234567)
+      return `+63${digits}`;
+    } else if (digits.startsWith('0') && digits.length === 11) {
+      // Mobile with leading 0 (e.g., 09171234567)
+      return `+63${digits.substring(1)}`;
+    }
+    
+    // If format doesn't match, don't send phone
+    console.warn('⚠️ Invalid phone format, skipping phone field:', phone);
+    return undefined;
   }
 }

@@ -84,7 +84,7 @@ export interface OnboardingSchema {
 
 // Lead Submission
 export interface LeadCreate {
-  name: string;
+  full_name: string;
   email: string;
   phone?: string;
   company?: string;
@@ -96,8 +96,18 @@ export interface LeadCreate {
   source?: string;
 }
 
-export interface Lead extends LeadCreate {
+export interface Lead {
   id: number;
+  full_name: string;
+  email: string;
+  phone?: string;
+  company?: string;
+  service_type: string;
+  budget_range: string;
+  timeline?: string;
+  project_description?: string;
+  answers: Record<string, string | string[] | number | boolean>;
+  source?: string;
   ai_prompt: string;
   status: string;
   created_at: string;
