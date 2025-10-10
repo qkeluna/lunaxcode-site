@@ -1,25 +1,40 @@
 "use client";
 
 import { useCallback, useRef, useState, useEffect } from "react";
-import { Moon, Sun } from "lucide-react";
+import { Moon, Sun, Monitor } from "lucide-react";
 import { flushSync } from "react-dom";
-import { useThemeStore } from "@/store/theme-store";
+import { useThemeStore, type Theme } from "@/store/theme-store";
 import { cn } from "@/lib/utils";
 
 type Props = {
   className?: string;
 };
 
+const ThemeIcon = ({ theme }: { theme: Theme }) => {
+  const iconClass = "w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors duration-300";
+  
+  switch (theme) {
+    case 'light':
+      return <Sun className={iconClass} />;
+    case 'dark':
+      return <Moon className={iconClass} />;
+    case 'system':
+      return <Monitor className={iconClass} />;
+    default:
+      return <Sun className={iconClass} />;
+  }
+};
+
 export const AnimatedThemeToggler = ({ className }: Props) => {
-  const { theme, toggleTheme } = useThemeStore();
+  const { theme, toggleTheme, initializeTheme } = useThemeStore();
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [mounted, setMounted] = useState(false);
-  const isDark = theme === 'dark';
 
-  // Prevent hydration mismatch by only rendering theme-dependent content after mount
+  // Initialize theme and prevent hydration mismatch
   useEffect(() => {
     setMounted(true);
-  }, []);
+    initializeTheme();
+  }, [initializeTheme]);
 
   const handleToggleTheme = useCallback(async () => {
     if (!buttonRef.current) return;
@@ -65,14 +80,14 @@ export const AnimatedThemeToggler = ({ className }: Props) => {
     return (
       <button
         className={cn(
-          "relative overflow-hidden w-10 h-10 rounded-lg bg-[var(--surface-elevated)] border border-[var(--border-medium)] flex items-center justify-center transition-all duration-300 group",
+          "relative overflow-hidden w-10 h-10 rounded-lg bg-card border border-border flex items-center justify-center transition-all duration-300 group",
           className
         )}
         aria-label="Toggle theme"
         disabled
       >
         <div className="relative z-10">
-          <Sun className="w-5 h-5 text-[var(--text-secondary)] opacity-50" />
+          <Sun className="w-5 h-5 text-muted-foreground opacity-50" />
         </div>
       </button>
     );
@@ -83,34 +98,19 @@ export const AnimatedThemeToggler = ({ className }: Props) => {
       ref={buttonRef}
       onClick={handleToggleTheme}
       className={cn(
-        "relative overflow-hidden w-10 h-10 rounded-lg bg-[var(--surface-elevated)] border border-[var(--border-medium)] flex items-center justify-center hover:bg-[var(--surface-elevated)] hover:border-[var(--accent-primary)] transition-all duration-300 group",
+        "relative overflow-hidden w-10 h-10 rounded-lg bg-card border border-border flex items-center justify-center hover:bg-accent hover:border-primary transition-all duration-300 group",
         className
       )}
-      aria-label="Toggle theme"
+      aria-label={`Toggle theme (current: ${theme})`}
+      title={`Switch to ${theme === 'light' ? 'dark' : theme === 'dark' ? 'system' : 'light'} mode`}
     >
       <div className="relative z-10">
-        {isDark ? (
-          <Sun className="w-5 h-5 text-[var(--text-secondary)] group-hover:text-[var(--accent-primary)] transition-colors duration-300" />
-        ) : (
-          <Moon className="w-5 h-5 text-[var(--text-secondary)] group-hover:text-[var(--accent-primary)] transition-colors duration-300" />
-        )}
+        <ThemeIcon theme={theme} />
       </div>
 
       {/* Glow Effect */}
-      <div className="absolute inset-0 bg-[var(--accent-primary)] rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
+      <div className="absolute inset-0 bg-primary rounded-lg opacity-0 group-hover:opacity-10 transition-opacity duration-300"></div>
 
-      {/* Animated Background */}
-      <div
-        className={cn(
-          "absolute inset-0 transition-transform duration-500 ease-in-out",
-          isDark ? "translate-y-0" : "translate-y-full"
-        )}
-        style={{
-          background: isDark
-            ? "linear-gradient(135deg, #1e293b 0%, #334155 100%)"
-            : "linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%)"
-        }}
-      />
     </button>
   );
 };

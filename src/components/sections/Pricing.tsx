@@ -52,7 +52,7 @@ export function Pricing() {
               <span className="text-caption text-secondary">Fast & Affordable</span>
             </div>
 
-            <h2 className="text-h2 text-primary mb-6">
+            <h2 className="text-h2 text-primary mb-6 text-balance">
               Choose Your Package
             </h2>
             <p className="text-body-lg text-secondary max-w-3xl mx-auto">
@@ -99,7 +99,7 @@ export function Pricing() {
 
               {/* Plan Header */}
               <div className="text-center mb-6 relative z-10 p-6 pt-8">
-                <h3 className="text-2xl font-bold text-primary mb-4">
+                <h3 className="text-h3 text-primary mb-4 text-balance">
                   {plan.name}
                 </h3>
 

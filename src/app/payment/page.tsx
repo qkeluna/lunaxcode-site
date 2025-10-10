@@ -42,7 +42,7 @@ function PaymentContent() {
 
           {/* Title */}
           <div className="text-center mb-8">
-            <h1 className="text-h2 text-primary font-bold mb-3 bg-gradient-to-r from-[var(--accent-primary)] to-purple-500 bg-clip-text text-transparent">
+            <h1 className="text-h2 font-bold mb-3 bg-gradient-to-r from-[var(--accent-primary)] to-purple-500 bg-clip-text text-transparent">
               Submission Received!
             </h1>
             <p className="text-body text-secondary max-w-md mx-auto leading-relaxed">

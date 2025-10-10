@@ -39,7 +39,7 @@ export function Services() {
         {/* Section Header */}
         <ScrollReveal direction="up" delay={0.1}>
           <div className="text-center mb-16 max-w-3xl mx-auto">
-            <h2 className="text-h2 text-primary mb-6">
+            <h2 className="text-h2 text-primary mb-6 text-balance">
               Our Services
             </h2>
             <p className="text-body-lg text-secondary">
@@ -63,7 +63,7 @@ export function Services() {
 
               {/* Service Header */}
               <div className="text-center mb-6">
-                <h3 className="text-h4 text-primary mb-3 group-hover:text-[var(--accent-primary)] transition-colors">
+                <h3 className="text-h4 text-primary mb-3 group-hover:text-[var(--accent-primary)] transition-colors text-balance">
                   {service.name}
                 </h3>
                 <p className="text-body text-secondary mb-4 leading-relaxed">

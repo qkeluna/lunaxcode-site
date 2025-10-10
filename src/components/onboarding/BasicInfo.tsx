@@ -29,7 +29,7 @@ export function BasicInfo() {
 
   return (
     <div>
-      <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-4">Tell us about yourself</h3>
+      <h3 className="text-h4 text-primary mb-4">Tell us about yourself</h3>
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -45,7 +45,7 @@ export function Features() {
         {/* Section Header */}
         <ScrollReveal direction="up" delay={0.1}>
           <div className="text-center mb-20 max-w-4xl mx-auto">
-            <h2 className="text-h2 text-primary mb-6">
+            <h2 className="text-h2 text-primary mb-6 text-balance">
               Why Choose Lunaxcode?
             </h2>
             <p className="text-body-lg text-secondary max-w-3xl mx-auto">
@@ -80,7 +80,7 @@ export function Features() {
 
               {/* Content */}
               <div className="relative z-10 flex-grow">
-                <h3 className="text-h4 text-primary mb-4 group-hover:text-[var(--accent-primary)] transition-colors duration-300">
+                <h3 className="text-h4 text-primary mb-4 group-hover:text-[var(--accent-primary)] transition-colors duration-300 text-balance">
                   {feature.title}
                 </h3>
                 <p className="text-body text-secondary leading-relaxed">

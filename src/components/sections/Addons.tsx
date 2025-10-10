@@ -47,7 +47,7 @@ export function Addons() {
             <span className="text-caption text-secondary">Enhance Your Project</span>
           </div>
 
-          <h2 className="text-h2 text-primary mb-6">
+          <h2 className="text-h2 text-primary mb-6 text-balance">
             Add-ons & Extras
           </h2>
           <p className="text-body-lg text-secondary max-w-3xl mx-auto">
@@ -78,7 +78,7 @@ export function Addons() {
 
                 {/* Content */}
                 <div>
-                  <h3 className="text-h4 text-primary mb-4 group-hover:text-[var(--accent-primary)] transition-colors">
+                  <h3 className="text-h4 text-primary mb-4 group-hover:text-[var(--accent-primary)] transition-colors text-balance">
                     {addon.name}
                   </h3>
 

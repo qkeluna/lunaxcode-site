@@ -17,9 +17,10 @@ export class DataService {
   static async getServices() {
     try {
       return await api.getServices();
-    } catch (error) {
-      console.error('Failed to fetch services:', error);
-      throw error;
+    } catch {
+      console.warn('API unavailable, using fallback data for services');
+      const { fallbackServices } = await import('@/lib/fallback-data');
+      return fallbackServices;
     }
   }
 
@@ -27,9 +28,10 @@ export class DataService {
   static async getPricingPlans() {
     try {
       return await api.getPricingPlans();
-    } catch (error) {
-      console.error('Failed to fetch pricing plans:', error);
-      throw error;
+    } catch {
+      console.warn('API unavailable, using fallback data for pricing plans');
+      const { fallbackPricingPlans } = await import('@/lib/fallback-data');
+      return fallbackPricingPlans;
     }
   }
 
@@ -37,9 +39,10 @@ export class DataService {
   static async getFeatures() {
     try {
       return await api.getFeatures();
-    } catch (error) {
-      console.error('Failed to fetch features:', error);
-      throw error;
+    } catch {
+      console.warn('API unavailable, using fallback data for features');
+      const { fallbackFeatures } = await import('@/lib/fallback-data');
+      return fallbackFeatures;
     }
   }
 
@@ -48,9 +51,18 @@ export class DataService {
     try {
       const schema = await api.getOnboardingQuestions(serviceType);
       return schema.questions;
-    } catch (error) {
-      console.error('Failed to fetch onboarding questions:', error);
-      throw error;
+    } catch {
+      console.warn('API unavailable, using fallback data for onboarding questions');
+      // Fallback to local data when API is unavailable
+      const { ONBOARDING_QUESTIONS } = await import('@/data/onboarding-questions');
+      const serviceQuestions = ONBOARDING_QUESTIONS[serviceType as keyof typeof ONBOARDING_QUESTIONS];
+      
+      if (!serviceQuestions) {
+        console.error(`No onboarding questions found for service type: ${serviceType}`);
+        return [];
+      }
+      
+      return serviceQuestions.questions;
     }
   }
 
@@ -58,9 +70,10 @@ export class DataService {
   static async getCompanyInfo() {
     try {
       return await api.getCompanyInfo();
-    } catch (error) {
-      console.error('Failed to fetch company info:', error);
-      throw error;
+    } catch {
+      console.warn('API unavailable, using fallback data for company info');
+      const { fallbackCompanyInfo } = await import('@/lib/fallback-data');
+      return fallbackCompanyInfo;
     }
   }
 
@@ -68,9 +81,10 @@ export class DataService {
   static async getAddons() {
     try {
       return await api.getAddons();
-    } catch (error) {
-      console.error('Failed to fetch addons:', error);
-      throw error;
+    } catch {
+      console.warn('API unavailable, using fallback data for addons');
+      const { fallbackAddons } = await import('@/lib/fallback-data');
+      return fallbackAddons;
     }
   }
 

@@ -68,18 +68,6 @@ export function Process() {
                 onMouseEnter={() => setActiveStep(index)}
                 onMouseLeave={() => setActiveStep(null)}
               >
-                {/* Connection Line */}
-                {index < steps.length - 1 && (
-                  <div className="hidden md:block absolute top-20 left-full w-full h-0.5 bg-[var(--border-subtle)] z-0">
-                    <div
-                      className="h-full bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)] transition-all duration-1000"
-                      style={{
-                        width: activeStep !== null && activeStep >= index ? '100%' : '0%'
-                      }}
-                    ></div>
-                  </div>
-                )}
-
                 {/* Step Card */}
                 <div className="card-feature text-center relative z-10">
                   {/* Step Number & Icon */}

@@ -3,10 +3,11 @@
 
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Menu, X, Sparkles, ArrowRight } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { useUIStore } from '@/store/ui-store';
 import { COMPANY_INFO } from '@/data/company';
-import { AnimatedThemeToggler } from '@/components/magicui/animated-theme-toggler';
+import { ThemeToggleSwitch } from '@/components/ui/theme-toggle-switch';
+import { AnimatedMenuToggle } from '@/components/ui/animated-menu-toggle';
 
 export function Header() {
   const { isMobileMenuOpen, toggleMobileMenu, closeMobileMenu } = useUIStore();
@@ -72,30 +73,20 @@ export function Header() {
 
           {/* Desktop Actions */}
           <div className="hidden md:flex items-center gap-4">
-            <AnimatedThemeToggler />
-            <Link
-              href="#pricing"
-              className="py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 text-white shadow-lg"
-            >
-              <span>Get Started</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
+            <ThemeToggleSwitch />
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            onClick={toggleMobileMenu}
-            className="md:hidden p-2 hover:bg-[var(--surface-elevated)] rounded-lg transition-all duration-300 group"
-            aria-label="Toggle mobile menu"
-          >
-            <div className="relative">
-              {isMobileMenuOpen ? (
-                <X size={24} className="text-primary group-hover:text-[var(--accent-primary)] transition-colors" />
-              ) : (
-                <Menu size={24} className="text-primary group-hover:text-[var(--accent-primary)] transition-colors" />
-              )}
-            </div>
-          </button>
+          {/* Mobile Actions - Theme Toggle + Menu Button */}
+          <div className="flex md:hidden items-center gap-3">
+            {/* Theme Toggle for Mobile */}
+            <ThemeToggleSwitch />
+            
+            {/* Animated Mobile Menu Toggle */}
+            <AnimatedMenuToggle 
+              isOpen={isMobileMenuOpen}
+              onClick={toggleMobileMenu}
+            />
+          </div>
         </div>
 
         {/* Mobile Navigation */}
@@ -117,23 +108,6 @@ export function Header() {
                   {item.label}
                 </Link>
               ))}
-
-              {/* Mobile CTA and Theme Toggle */}
-              <div className="px-4 pt-4 border-t border-[var(--border-subtle)] space-y-4">
-                <div className="flex items-center justify-center gap-4">
-                  <AnimatedThemeToggler />
-                  <span className="text-body-sm text-secondary">Theme</span>
-                </div>
-                <Link
-                  href="#pricing"
-                  className="w-full py-3 px-6 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center gap-2 group bg-[var(--accent-primary)] hover:bg-[var(--accent-primary)]/90 text-white shadow-lg animate-fade-in-up"
-                  style={{ animationDelay: '0.4s' }}
-                  onClick={closeMobileMenu}
-                >
-                  <span>Get Started</span>
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </div>
 
               {/* Mobile Contact Info */}
               <div className="px-4 text-center">

@@ -20,7 +20,7 @@ export function Contact() {
             <div className="lg:pr-8 xl:pr-12">
               {/* Hero Text */}
               <div className="mb-10">
-                <h2 className="text-[48px] lg:text-[64px] leading-[1.1] font-bold text-primary mb-4">
+                <h2 className="text-h1 text-primary mb-4">
                   Want to build something great? Get in touch.
                 </h2>
                 <p className="text-body text-secondary max-w-lg">

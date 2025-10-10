@@ -44,7 +44,7 @@ export function Hero() {
 
           {/* Main Headline */}
           <ScrollReveal direction="up" delay={0.1}>
-            <h1 className="text-display text-primary mb-6">
+            <h1 className="text-display text-primary mb-6 text-balance">
               {company?.tagline}
             </h1>
           </ScrollReveal>

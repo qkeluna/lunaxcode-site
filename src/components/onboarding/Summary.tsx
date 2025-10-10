@@ -16,7 +16,7 @@ export function Summary() {
 
   return (
     <div>
-      <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-4">Review Your Information</h3>
+      <h3 className="text-h4 text-primary mb-4">Review Your Information</h3>
       <p className="text-[var(--text-secondary)] mb-6">
         Please review your information before submitting your request.
       </p>

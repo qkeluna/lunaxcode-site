@@ -1,0 +1,53 @@
+/* CSS Variable Migration Helper
+ * This file maps old variable names to new theme system variables
+ * Import this after globals.css to maintain backward compatibility
+ */
+
+:root {
+  /* Old variable names mapped to new theme system */
+  
+  /* Backgrounds */
+  --bg-primary: var(--background);
+  --bg-secondary: var(--secondary);
+  --bg-tertiary: var(--muted);
+  
+  /* Text colors */
+  --text-primary: var(--foreground);
+  --text-secondary: var(--muted-foreground);
+  --text-tertiary: var(--muted-foreground);
+  
+  /* Accent colors - map to primary */
+  --accent-primary: var(--primary);
+  --accent-secondary: var(--primary);
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary);
+  
+  /* Borders */
+  --border-subtle: var(--border);
+  --border-medium: var(--border);
+  --border-strong: var(--border);
+  
+  /* Surfaces */
+  --surface-elevated: var(--card);
+  --surface-overlay: var(--popover);
+  
+  /* Spacing */
+  --container-padding: 1.5rem;
+  --nav-height: 4rem;
+  --section-padding-sm: 3rem;
+  --section-padding-md: 5rem;
+  --section-padding-lg: 7.5rem;
+  --grid-gap: 1.5rem;
+  
+  /* Radius */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  
+  /* Transitions */
+  --transition-fast: 0.15s ease-out;
+  --transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}

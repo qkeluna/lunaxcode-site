@@ -5,7 +5,7 @@ import { useOnboardingStore } from '@/store/onboarding-store';
 import { QuestionRenderer } from '../forms/QuestionRenderer';
 
 export function ServiceSpecific() {
-  const { questions, formData, updateFormData, nextStep, canProceed } = useOnboardingStore();
+  const { questions, formData, updateFormData, nextStep, canProceed, serviceType } = useOnboardingStore();
 
   const handleQuestionChange = (questionId: string, value: string | string[]) => {
     updateFormData({
@@ -25,8 +25,8 @@ export function ServiceSpecific() {
 
   return (
     <div>
-      <h3 className="text-xl font-semibold text-[var(--text-primary)] mb-4">
-        Service-Specific Details
+      <h3 className="text-h4 text-primary mb-4">
+        About {serviceType}
       </h3>
       <p className="text-[var(--text-secondary)] mb-6">
         Help us understand your specific requirements for this service.

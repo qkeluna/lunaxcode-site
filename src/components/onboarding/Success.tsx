@@ -13,8 +13,8 @@ export function Success() {
         <CheckCircle className="w-16 h-16 text-[var(--accent-success)] animate-pulse" />
       </div>
 
-      <h3 className="text-2xl font-bold text-[var(--text-primary)] mb-4">
-        Request Submitted Successfully!
+            <h3 className="text-h3 text-primary mb-4">
+        Thank You!
       </h3>
 
       <p className="text-[var(--text-secondary)] mb-6">

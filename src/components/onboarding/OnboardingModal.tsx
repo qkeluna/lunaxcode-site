@@ -57,7 +57,7 @@ export function OnboardingModal() {
           </button>
 
           <div className="pr-12">
-            <h2 className="text-2xl font-bold mb-2">Start Your Project</h2>
+            <h2 className="text-h3 mb-2">Start Your Project</h2>
             <p className="text-[var(--text-secondary)]">
               Tell us about your needs and we&apos;ll create a custom solution for you.
             </p>
